@@ -1,6 +1,7 @@
 package edu.illinois.finalproject.RecyclerViewFiles;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,6 +13,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
+import edu.illinois.finalproject.LeagueViewActvity;
 import edu.illinois.finalproject.R;
 import edu.illinois.finalproject.SimulationFiles.League;
 
@@ -102,7 +104,7 @@ public class LeagueAdapter extends RecyclerView.Adapter<LeagueAdapter.LeagueView
          *
          * @param league The String to bind
          */
-        void bind(League league) {
+        void bind(final League league) {
             //Todo 4: Possibly improve DB structure to make prettier look
             firstTeam.setText(league.firstTeam().getName());
             secondTeam.setText(league.secondTeam().getName());
@@ -110,7 +112,9 @@ public class LeagueAdapter extends RecyclerView.Adapter<LeagueAdapter.LeagueView
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-
+                    Intent intent = new Intent(context, LeagueViewActvity.class);
+                    intent.putExtra(LeagueViewActvity.LEAGUE, league);
+                    context.startActivity(intent);
                 }
             });
 

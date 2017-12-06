@@ -1,5 +1,8 @@
 package edu.illinois.finalproject.SimulationFiles;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -7,7 +10,7 @@ import java.util.List;
  * Created by vijay on 12/5/2017.
  */
 
-public class User {
+public class User implements Parcelable {
     private String uid;
     private List<String> leagueIds;
 
@@ -38,4 +41,33 @@ public class User {
     public void setLeagueIds(List<String> leagueIds) {
         this.leagueIds = leagueIds;
     }
+
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(this.uid);
+        dest.writeStringList(this.leagueIds);
+    }
+
+    protected User(Parcel in) {
+        this.uid = in.readString();
+        this.leagueIds = in.createStringArrayList();
+    }
+
+    public static final Parcelable.Creator<User> CREATOR = new Parcelable.Creator<User>() {
+        @Override
+        public User createFromParcel(Parcel source) {
+            return new User(source);
+        }
+
+        @Override
+        public User[] newArray(int size) {
+            return new User[size];
+        }
+    };
 }
