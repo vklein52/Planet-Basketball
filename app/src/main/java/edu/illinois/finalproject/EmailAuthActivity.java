@@ -1,6 +1,8 @@
 package edu.illinois.finalproject;
 
 import android.app.ProgressDialog;
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.VisibleForTesting;
@@ -22,6 +24,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
 import edu.illinois.finalproject.R;
+import edu.illinois.finalproject.RecyclerViewFiles.LeagueListActivity;
 
 public class EmailAuthActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -30,21 +33,25 @@ public class EmailAuthActivity extends AppCompatActivity implements View.OnClick
 
     private EditText mEmailField;
     private EditText mPasswordField;
-    private Button mRegisterButton;
-    private Button mLoginButton;
+
+    private Context context;
 
     private static final String TAG = EmailAuthActivity.class.getSimpleName();
+    public static final String TITLE = "Login";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_email_auth);
 
+        context = this;
+        setTitle(TITLE);
+
         mEmailField = (EditText) findViewById(R.id.email_field);
         mPasswordField = (EditText) findViewById(R.id.password_field);
 
-        mRegisterButton = (Button) findViewById(R.id.email_create_account_button);
-        mLoginButton = (Button) findViewById(R.id.email_sign_in_button);
+        Button mRegisterButton = (Button) findViewById(R.id.email_create_account_button);
+        Button mLoginButton = (Button) findViewById(R.id.email_sign_in_button);
 
         mRegisterButton.setOnClickListener(this);
         mLoginButton.setOnClickListener(this);
@@ -94,6 +101,7 @@ public class EmailAuthActivity extends AppCompatActivity implements View.OnClick
                             Toast.makeText(EmailAuthActivity.this, "Failed",
                                     Toast.LENGTH_SHORT).show();
                         } else {
+                            startActivity(new Intent(context, LeagueListActivity.class));
                             finish();
                         }
 
@@ -108,8 +116,6 @@ public class EmailAuthActivity extends AppCompatActivity implements View.OnClick
             return;
         }
 
-
-        // [START sign_in_with_email]
         mAuth.signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
@@ -117,7 +123,7 @@ public class EmailAuthActivity extends AppCompatActivity implements View.OnClick
                         if (task.isSuccessful()) {
                             // Sign in success, update UI with the signed-in user's information
                             Log.d(TAG, "signInWithEmail:success");
-                            FirebaseUser user = mAuth.getCurrentUser();
+                            startActivity(new Intent(context, LeagueListActivity.class));
                             finish();
                         } else {
                             // If sign in fails, display a message to the user.
@@ -127,7 +133,6 @@ public class EmailAuthActivity extends AppCompatActivity implements View.OnClick
                         }
                     }
                 });
-        // [END sign_in_with_email]
     }
 
     private void signOut() {
@@ -156,6 +161,8 @@ public class EmailAuthActivity extends AppCompatActivity implements View.OnClick
         return valid;
     }
 
+    //TODO 1: Improve the layout of AuthActivity
+    //TODO 2: Disable back button
     @Override
     public void onClick(View v) {
         int i = v.getId();

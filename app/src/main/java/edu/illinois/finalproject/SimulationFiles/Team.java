@@ -9,6 +9,7 @@ import java.util.List;
 
 public class Team {
 
+    //Name will be some identifier of the user
     private String name;
     private List<Player> players;
     private int wins;

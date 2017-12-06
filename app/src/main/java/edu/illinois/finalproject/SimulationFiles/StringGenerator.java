@@ -10,7 +10,8 @@ import java.util.Random;
 
 class StringGenerator {
 
-    private final static String LETTERS = "abcdefghijklmnopqrstuvwxyz";
+    private final static String LETTERS = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    private final static String NUMBERS = "0123456789";
 
     /**
      * Helper function to create a random string of length, length
@@ -23,7 +24,11 @@ class StringGenerator {
         StringBuilder stringBuilder = new StringBuilder();
 
         for (int i = 0; i < length; i++) {
-            stringBuilder.append(LETTERS.charAt(random.nextInt(LETTERS.length())));
+            if (random.nextBoolean()) {
+                stringBuilder.append(LETTERS.charAt(random.nextInt(LETTERS.length())));
+            } else {
+                stringBuilder.append(NUMBERS.charAt(random.nextInt(NUMBERS.length())));
+            }
         }
         return stringBuilder.toString();
     }

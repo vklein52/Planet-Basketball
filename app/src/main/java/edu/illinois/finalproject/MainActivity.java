@@ -8,7 +8,9 @@ import android.util.Log;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
+import edu.illinois.finalproject.RecyclerViewFiles.LeagueListActivity;
 
+//AKA the League view activity 
 public class MainActivity extends AppCompatActivity {
 
     private static final String TAG = MainActivity.class.getSimpleName();
@@ -20,6 +22,9 @@ public class MainActivity extends AppCompatActivity {
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         if (user == null) {
             startActivity(new Intent(this, EmailAuthActivity.class));
+        } else {
+            user.reload();
+            startActivity(new Intent(this, LeagueListActivity.class));
         }
     }
 

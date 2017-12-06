@@ -14,10 +14,12 @@ public class League {
     public static final String FIRST_TEAM = "First Team", SECOND_TEAM = "Second Team";
     private Map<String, Team> teams;
     private List<Game> games;
+    private String id;
 
     public League() {
         populateTeams();
         populateSampleGames();
+        this.id = StringGenerator.genRandomString(15);
     }
 
     private void populateTeams() {
@@ -74,4 +76,11 @@ public class League {
         return teams.get(SECOND_TEAM);
     }
 
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
 }

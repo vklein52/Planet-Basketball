@@ -16,4 +16,9 @@
     <string name="permission_rationale">"Contacts permissions are needed for providing email
         completions."
     </string>
+    <string name="league_text_here">League Between</string>
+    <string-array name="league_options">
+        <item>Invitations</item>
+        <item>My Leagues</item>
+    </string-array>
 </resources>
