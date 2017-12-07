@@ -16,6 +16,18 @@
     <string name="permission_rationale">"Contacts permissions are needed for providing email
         completions."
     </string>
+    <string name="title_activity_settings">Settings</string>
+    <string name="ascending">Ascending</string>
+    <string name="descending">Descending</string>
+    <string name="textview">TextView</string>
+    <string name="settings">Settings</string>
+    <string name="search">Search</string>
+
+
+    <string-array name="sort_types">
+        <item>@string/ascending</item>
+        <item>@string/descending</item>
+    </string-array>
     <string name="league_text_here">League Between</string>
     <string-array name="league_options">
         <item>Invitations</item>

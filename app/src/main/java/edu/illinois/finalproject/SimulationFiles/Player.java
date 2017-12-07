@@ -2,6 +2,7 @@ package edu.illinois.finalproject.SimulationFiles;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.support.annotation.NonNull;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -11,7 +12,7 @@ import java.util.Random;
  * Created by vijay on 11/28/2017.
  */
 
-public class Player implements Parcelable {
+public class Player implements Comparable<Player>, Parcelable {
     //Will be put into JSON in final app, but opted for convenience as this is only tests
     private static String[] attributeNames = {"speed", "layup", "close", "midrange", "threes", "passing", "dribbling", "defending", "steal", "block", "rebounding", "awareness",
             "strength", "vertical", "size", "stamina", "potential"};
@@ -20,6 +21,7 @@ public class Player implements Parcelable {
     private String name;
     private int age;
     private Position position;
+    private int overall;
 //    private List<Byte> face;
 
     //public Player(){};
@@ -75,7 +77,12 @@ public class Player implements Parcelable {
     }
 
     public int overall() {
-        return RandomUtils.randInt(50, 70);
+        //Since ovr cant be 0 unless uninitialized
+        double ovr = 0.0;
+        for (double d : attributes.values()) {
+            ovr += d;
+        }
+        return ((int) ovr) / attributeNames.length;
     }
 
 //    public List<Byte> getFace() {
@@ -133,4 +140,9 @@ public class Player implements Parcelable {
             return new Player[size];
         }
     };
+
+    @Override
+    public int compareTo(@NonNull Player o) {
+        return overall() - o.overall();
+    }
 }

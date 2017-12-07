@@ -13,6 +13,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
+import edu.illinois.finalproject.MenuFiles.PlayerComparator;
 import edu.illinois.finalproject.R;
 import edu.illinois.finalproject.SimulationFiles.Player;
 import edu.illinois.finalproject.SimulationFiles.Position;
@@ -31,12 +32,13 @@ public class PlayerAdapter extends RecyclerView.Adapter<PlayerAdapter.PlayerView
     //Todo 3: Create the Comparators!
     private Comparator comparator;
 
-    public PlayerAdapter(List<Player> players, Context context) {
+    public PlayerAdapter(List<Player> players, PlayerComparator comparator, Context context) {
         this.players = players;
         playersCopy = new ArrayList<>();
         playersCopy.addAll(players);
+        this.comparator = comparator;
+        sortData();
         this.context = context;
-        //sortData();
     }
 
     @Override
@@ -63,22 +65,22 @@ public class PlayerAdapter extends RecyclerView.Adapter<PlayerAdapter.PlayerView
         this.notifyDataSetChanged();
     }
 
-//    void filter(String text) {
-//        //Below code found and then edited from
-//        //https://stackoverflow.com/questions/30398247/how-to-filter-a-recyclerview-with-a-searchview
-//        leagues.clear();
-//        if (text.isEmpty()) {
-//            leagues.addAll(leaguesCopy);
-//        } else {
-//            text = text.toLowerCase();
-//            for (League item : leaguesCopy) {
-//                if (item.get.contains(text)) {
-//                    leagues.add(item);
-//                }
-//            }
-//        }
-//        sortData();
-//    }
+    void filter(String text) {
+        //Below code found and then edited from
+        //https://stackoverflow.com/questions/30398247/how-to-filter-a-recyclerview-with-a-searchview
+        players.clear();
+        if (text.isEmpty()) {
+            players.addAll(playersCopy);
+        } else {
+            text = text.toLowerCase();
+            for (Player item : playersCopy) {
+                if (item.getName().toLowerCase().contains(text.toLowerCase())) {
+                    players.add(item);
+                }
+            }
+        }
+        sortData();
+    }
 
     class PlayerViewHolder extends RecyclerView.ViewHolder {
         View itemView;
