@@ -26,6 +26,23 @@ public enum Position {
         }
     }
 
+    public static String asAbbreviatedString(Position position) {
+        switch (position) {
+            case POINT_GUARD:
+                return "PG";
+            case SHOOTING_GUARD:
+                return "SG";
+            case SMALL_FORWARD:
+                return "SF";
+            case POWER_FORWARD:
+                return "PF";
+            case CENTER:
+                return "C";
+            default:
+                return "";
+        }
+    }
+
     public static int asInt(Position position) {
         switch (position) {
             case POINT_GUARD:

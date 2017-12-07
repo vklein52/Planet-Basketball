@@ -14,7 +14,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".MainActivity"></activity>
+        <activity android:name=".MainActivity" />
         <activity
             android:name=".EmailAuthActivity"
             android:label="@string/title_activity_email_auth"
@@ -26,7 +26,8 @@
             </intent-filter>
         </activity>
         <activity android:name=".RecyclerViewFiles.LeagueListActivity" />
-        <activity android:name=".LeagueViewActvity"></activity>
+        <activity android:name=".LeagueViewActivity" />
+        <activity android:name=".RecyclerViewFiles.PlayerListViewActivity"></activity>
     </application>
 
 </manifest>

@@ -1,23 +1,30 @@
 package edu.illinois.finalproject;
 
-import android.support.v7.app.AppCompatActivity;
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
+import android.view.View;
 import android.widget.TextView;
 
-import edu.illinois.finalproject.R;
+import edu.illinois.finalproject.RecyclerViewFiles.PlayerListViewActivity;
 import edu.illinois.finalproject.SimulationFiles.League;
 import edu.illinois.finalproject.SimulationFiles.Team;
 
-public class LeagueViewActvity extends AppCompatActivity {
+public class LeagueViewActivity extends AppCompatActivity {
 
     public static final String LEAGUE = "LEAGUE";
+    private static final String TAG = LeagueViewActivity.class.getSimpleName();
 
     private League league;
+    private Context context;
 
+    private View firstTeamItem;
     private TextView firstTeamName;
     private TextView firstTeamRecord;
     private TextView firstTeamOverall;
 
+    private View secondTeamItem;
     private TextView secondTeamName;
     private TextView secondTeamRecord;
     private TextView secondTeamOverall;
@@ -25,19 +32,23 @@ public class LeagueViewActvity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_league_view_actvity);
+        setContentView(R.layout.activity_league_view_activity);
 
         league = getIntent().getParcelableExtra(LEAGUE);
+        context = this;
 
         initializeViews();
         populateViews();
+        addOnClickListeners();
     }
 
     private void initializeViews() {
+        firstTeamItem = findViewById(R.id.first_team_item);
         firstTeamName = (TextView) findViewById(R.id.first_team_list_name);
         firstTeamRecord = (TextView) findViewById(R.id.first_team_list_record);
         firstTeamOverall = (TextView) findViewById(R.id.first_team_list_overall);
 
+        secondTeamItem = findViewById(R.id.second_team_item);
         secondTeamName = (TextView) findViewById(R.id.second_team_list_name);
         secondTeamRecord = (TextView) findViewById(R.id.second_team_list_record);
         secondTeamOverall = (TextView) findViewById(R.id.second_team_list_overall);
@@ -56,5 +67,26 @@ public class LeagueViewActvity extends AppCompatActivity {
         secondTeamRecord.setText(league.secondTeamRecord());
         String secondOvrText = "Overall: " + second.calculateOverall();
         secondTeamOverall.setText(secondOvrText);
+
+    }
+
+    private void addOnClickListeners() {
+        firstTeamItem.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(context, PlayerListViewActivity.class);
+                intent.putExtra(PlayerListViewActivity.TEAM, league.firstTeam());
+                startActivity(intent);
+            }
+        });
+
+        secondTeamItem.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(context, PlayerListViewActivity.class);
+                intent.putExtra(PlayerListViewActivity.TEAM, league.secondTeam());
+                startActivity(intent);
+            }
+        });
     }
 }

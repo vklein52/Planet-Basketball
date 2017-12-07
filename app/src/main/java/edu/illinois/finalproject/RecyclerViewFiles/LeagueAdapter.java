@@ -13,7 +13,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
-import edu.illinois.finalproject.LeagueViewActvity;
+import edu.illinois.finalproject.LeagueViewActivity;
 import edu.illinois.finalproject.R;
 import edu.illinois.finalproject.SimulationFiles.League;
 
@@ -112,8 +112,8 @@ public class LeagueAdapter extends RecyclerView.Adapter<LeagueAdapter.LeagueView
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Intent intent = new Intent(context, LeagueViewActvity.class);
-                    intent.putExtra(LeagueViewActvity.LEAGUE, league);
+                    Intent intent = new Intent(context, LeagueViewActivity.class);
+                    intent.putExtra(LeagueViewActivity.LEAGUE, league);
                     context.startActivity(intent);
                 }
             });

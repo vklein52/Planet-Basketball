@@ -14,14 +14,13 @@ import com.google.firebase.database.FirebaseDatabase;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import java.util.Random;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 
 import edu.illinois.finalproject.SimulationFiles.League;
 import edu.illinois.finalproject.SimulationFiles.User;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 /**
  * Instrumentation test, which will execute on an Android device.
@@ -63,7 +62,9 @@ public class ExampleInstrumentedTest {
     @Test
     public void createUser() throws Exception {
         User user = new User("J08BhnwC2taieuG3LWQIbAitzbH2");
-        user.appendLeagueIds("N3Kfy1u0626GO0z");
+        user.appendLeagueIds("X3gM62138u8xM1R");
+        user.appendLeagueIds("ii63DY20eP824v3");
+        user.appendLeagueIds("w1Jdz1Kuq0w9B5x");
 
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference myRef = database.getReference("Users").child(user.getUid());

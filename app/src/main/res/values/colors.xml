@@ -10,4 +10,25 @@
     <color name="hyperlinkColor">#0000ee</color>
     <color name="hyperlinkUsedColor">#800080</color>
 
+    <color name="minBlack">#823a00</color>
+    <color name="medBlack">#692f01</color>
+    <color name="maxBlack">#3d1b00</color>
+    <color name="minWhite">#ffe3ce</color>
+    <color name="medWhite">#ffcca3</color>
+    <color name="maxWhite">#ffc18f</color>
+    <color name="minAsian">#ffe98b</color>
+    <color name="medAsian">#ffde54</color>
+    <color name="maxAsian">#ffe11a</color>
+    <color name="blueEye">#0077ff</color>
+    <color name="brownEye">#563212</color>
+    <color name="greenEye">#6bbaa0</color>
+    <color name="hazelEye">#b8ba77</color>
+    <color name="lightBrownHair">#7f4a00</color>
+    <color name="brownHair">#683d00</color>
+    <color name="darkBrownHair">#452900</color>
+    <color name="lightBlondeHair">#d0c600</color>
+    <color name="blondeHair">#9e9100</color>
+    <color name="dirtyBlondHair">#a0940a</color>
+    <color name="blackHair">#000000</color>
+    <color name="dirtyDirtyBlondeHair">#7f6500</color>
 </resources>

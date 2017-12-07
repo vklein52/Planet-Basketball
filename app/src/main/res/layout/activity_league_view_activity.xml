@@ -4,10 +4,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="edu.illinois.finalproject.LeagueViewActvity">
+    tools:context="edu.illinois.finalproject.LeagueViewActivity">
 
     <LinearLayout
-        android:id="@+id/linearLayout"
+        android:id="@+id/first_team_item"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginLeft="16dp"
@@ -29,15 +29,15 @@
                 android:id="@+id/first_team_list_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textSize="28sp"
-                android:text="First Team" />
+                android:text="First Team"
+                android:textSize="28sp" />
 
             <TextView
                 android:id="@+id/first_team_list_record"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textSize="18sp"
-                android:text="Record" />
+                android:text="Record"
+                android:textSize="18sp" />
         </LinearLayout>
 
         <TextView
@@ -52,6 +52,7 @@
     </LinearLayout>
 
     <LinearLayout
+        android:id="@+id/second_team_item"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
@@ -62,8 +63,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout"
-        android:id="@+id/linearLayout2"
+        app:layout_constraintTop_toBottomOf="@+id/first_team_item"
         app:layout_constraintVertical_bias="0.0">
 
         <LinearLayout
@@ -76,15 +76,15 @@
                 android:id="@+id/second_team_list_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textSize="28sp"
-                android:text="Second Team" />
+                android:text="Second Team"
+                android:textSize="28sp" />
 
             <TextView
                 android:id="@+id/second_team_list_record"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textSize="18sp"
-                android:text="Record"/>
+                android:text="Record"
+                android:textSize="18sp" />
 
         </LinearLayout>
 
@@ -93,8 +93,8 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:textSize="24sp"
             android:layout_weight="1"
-            android:text="Overall" />
+            android:text="Overall"
+            android:textSize="24sp" />
     </LinearLayout>
 </android.support.constraint.ConstraintLayout>
