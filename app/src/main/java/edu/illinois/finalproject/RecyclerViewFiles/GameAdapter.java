@@ -1,6 +1,7 @@
 package edu.illinois.finalproject.RecyclerViewFiles;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,6 +10,7 @@ import android.widget.TextView;
 
 import java.util.List;
 
+import edu.illinois.finalproject.GameDetailActivity;
 import edu.illinois.finalproject.R;
 import edu.illinois.finalproject.SimulationFiles.Game;
 
@@ -80,14 +82,14 @@ public class GameAdapter extends RecyclerView.Adapter<GameAdapter.GameViewHolder
             String homeTeamScore = game.getHomeScore() + "";
             homeTeamScoreView.setText(homeTeamScore);
 
-//            itemView.setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View v) {
-//                    Intent intent = new Intent(context, PlayerDetailActivity.class);
-//                    intent.putExtra(PlayerDetailActivity.PLAYER, player);
-//                    context.startActivity(intent);
-//                }
-//            });
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(context, GameDetailActivity.class);
+                    intent.putExtra(GameDetailActivity.GAME, game);
+                    context.startActivity(intent);
+                }
+            });
         }
     }
 }
