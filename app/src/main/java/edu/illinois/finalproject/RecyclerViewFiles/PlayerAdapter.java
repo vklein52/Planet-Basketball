@@ -1,6 +1,7 @@
 package edu.illinois.finalproject.RecyclerViewFiles;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,6 +15,7 @@ import java.util.Comparator;
 import java.util.List;
 
 import edu.illinois.finalproject.MenuFiles.PlayerComparator;
+import edu.illinois.finalproject.PlayerDetailActivity;
 import edu.illinois.finalproject.R;
 import edu.illinois.finalproject.SimulationFiles.Player;
 import edu.illinois.finalproject.SimulationFiles.Position;
@@ -133,6 +135,15 @@ public class PlayerAdapter extends RecyclerView.Adapter<PlayerAdapter.PlayerView
 
             String ageText = "Age: " + player.getAge();
             ageView.setText(ageText);
+
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(context, PlayerDetailActivity.class);
+                    intent.putExtra(PlayerDetailActivity.PLAYER, player);
+                    context.startActivity(intent);
+                }
+            });
         }
     }
 }

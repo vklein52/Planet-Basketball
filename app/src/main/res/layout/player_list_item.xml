@@ -21,6 +21,7 @@
         android:layout_gravity="center"
         android:layout_weight="1.5"
         android:text="TextView"
+        android:textColor="@color/textColor"
         android:textSize="18sp"
         tools:text="Name" />
 
@@ -36,6 +37,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Height"
+            android:textColor="@color/textColor"
             android:textSize="18sp" />
 
         <TextView
@@ -43,6 +45,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Pos"
+            android:textColor="@color/textColor"
             android:textSize="18sp" />
 
     </LinearLayout>
@@ -59,21 +62,24 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Overall" />
+            android:text="Overall"
+            android:textColor="@color/textColor" />
 
         <TextView
             android:id="@+id/player_potential_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Potential" />
+            android:text="Potential"
+            android:textColor="@color/textColor" />
 
         <TextView
             android:id="@+id/player_age_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Age" />
+            android:text="Age"
+            android:textColor="@color/textColor" />
 
     </LinearLayout>
 

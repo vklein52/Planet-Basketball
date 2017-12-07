@@ -28,6 +28,7 @@ public class PlayerComparator implements Comparator<Player> {
         PlayerComparator.sortType = sortType;
     }
 
+    //Todo 8: Add ability to sort on any stat they like
 
     @Override
     public int compare(Player p1, Player p2) {
