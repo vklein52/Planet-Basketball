@@ -9,7 +9,6 @@ import java.util.Map;
 
 import edu.illinois.finalproject.SimulationFiles.Player;
 import edu.illinois.finalproject.SimulationFiles.Position;
-import edu.illinois.finalproject.SimulationFiles.RandomUtils;
 
 public class PlayerDetailActivity extends AppCompatActivity {
 
@@ -30,6 +29,7 @@ public class PlayerDetailActivity extends AppCompatActivity {
         setContentView(R.layout.activity_player_detail);
 
         player = getIntent().getParcelableExtra(PLAYER);
+        setTitle(player.getName());
 
         initializeViews();
         populateViews();
@@ -46,9 +46,7 @@ public class PlayerDetailActivity extends AppCompatActivity {
 
     private void populateViews() {
         //Todo Faces stuff here and height stuff for the player
-
-        String heightText = "6'" + RandomUtils.randInt(0, 11) + "''";
-        heightView.setText(heightText);
+        heightView.setText(player.displayHeight());
 
         String ageText = "Age: " + player.getAge();
         ageView.setText(ageText);
@@ -62,11 +60,15 @@ public class PlayerDetailActivity extends AppCompatActivity {
         Map<String, Double> attributes = player.getAttributes();
         int index = attributes.size() / 2;
         int i = 0;
+
         StringBuilder firstBuilder = new StringBuilder();
+        String ovrLine = "overall: " + player.overall() + "\n";
+        firstBuilder.append(ovrLine);
         StringBuilder secondBuilder = new StringBuilder();
+
         for (Map.Entry<String, Double> entry : attributes.entrySet()) {
             String line = entry.getKey() + ": " + entry.getValue().intValue() + "\n";
-            if (i++ <= index) {
+            if (i++ < index) {
                 firstBuilder.append(line);
             } else {
                 secondBuilder.append(line);

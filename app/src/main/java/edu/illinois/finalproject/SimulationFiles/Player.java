@@ -5,6 +5,7 @@ import android.os.Parcelable;
 import android.support.annotation.NonNull;
 
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Random;
 
@@ -13,15 +14,18 @@ import java.util.Random;
  */
 
 public class Player implements Comparable<Player>, Parcelable {
+    //Todo: Wingspan
     //Will be put into JSON in final app, but opted for convenience as this is only tests
-    private static String[] attributeNames = {"speed", "layup", "close", "midrange", "threes", "passing", "dribbling", "defending", "steal", "block", "rebounding", "awareness",
+    private static String[] attributeNames = {"speed", "layup", "inside", "close", "midrange", "threes", "dunks", "passing", "dribbling", "defending", "steal", "block", "rebounding", "awareness",
             "strength", "vertical", "size", "stamina", "potential"};
+    private static final double MEAN_HEIGHT = 79;
+    private static final double STD_DEV_HEIGHT = 3.5;
 
     private Map<String, Double> attributes;
     private String name;
     private int age;
+    private double height;
     private Position position;
-    private int overall;
 //    private List<Byte> face;
 
     //public Player(){};
@@ -31,6 +35,7 @@ public class Player implements Comparable<Player>, Parcelable {
         populateAttributes();
         name = StringGenerator.genRandomString(6);
         age = 17 + random.nextInt(5);
+        height = RandomUtils.randGaussian(MEAN_HEIGHT, STD_DEV_HEIGHT);
         position = Position.getRandomPosition();
 
 //        int dim = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 50, Resources.getSystem().getDisplayMetrics());
@@ -38,7 +43,7 @@ public class Player implements Comparable<Player>, Parcelable {
     }
 
     private void populateAttributes() {
-        attributes = new HashMap<>();
+        attributes = new LinkedHashMap<>();
         for (String name : attributeNames) {
             attributes.put(name, Math.random() * 100);
         }
@@ -76,6 +81,20 @@ public class Player implements Comparable<Player>, Parcelable {
         this.position = position;
     }
 
+    public double getHeight() {
+        return height;
+    }
+
+    public void setHeight(double height) {
+        this.height = height;
+    }
+
+    public String displayHeight() {
+        //For rounding
+        int heightInt = (int) (height + 0.5);
+        return (heightInt / 12) + "'" + (heightInt % 12) + "''";
+    }
+
     public int overall() {
         //Since ovr cant be 0 unless uninitialized
         double ovr = 0.0;
@@ -97,6 +116,10 @@ public class Player implements Comparable<Player>, Parcelable {
 //        return Faces.byteListToDrawable(face, context);
 //    }
 
+    @Override
+    public int compareTo(@NonNull Player o) {
+        return overall() - o.overall();
+    }
 
     @Override
     public int describeContents() {
@@ -112,6 +135,7 @@ public class Player implements Comparable<Player>, Parcelable {
         }
         dest.writeString(this.name);
         dest.writeInt(this.age);
+        dest.writeDouble(this.height);
         dest.writeInt(this.position == null ? -1 : this.position.ordinal());
     }
 
@@ -125,6 +149,7 @@ public class Player implements Comparable<Player>, Parcelable {
         }
         this.name = in.readString();
         this.age = in.readInt();
+        this.height = in.readDouble();
         int tmpPosition = in.readInt();
         this.position = tmpPosition == -1 ? null : Position.values()[tmpPosition];
     }
@@ -140,9 +165,4 @@ public class Player implements Comparable<Player>, Parcelable {
             return new Player[size];
         }
     };
-
-    @Override
-    public int compareTo(@NonNull Player o) {
-        return overall() - o.overall();
-    }
 }

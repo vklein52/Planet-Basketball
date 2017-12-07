@@ -38,6 +38,12 @@ public class ExampleInstrumentedTest {
     }
 
     @Test
+    public void createLeagues() throws Exception {
+        createLeague();
+        createLeague();
+        createLeague();
+    }
+
     public void createLeague() throws Exception {
         League league = new League();
 
@@ -55,16 +61,16 @@ public class ExampleInstrumentedTest {
                     }
                 });
         // give up after 10 seconds if the above call to countDown never happens
-        writeSignal.await(10, TimeUnit.SECONDS);
+        writeSignal.await(3, TimeUnit.SECONDS);
 
     }
 
     @Test
     public void createUser() throws Exception {
         User user = new User("J08BhnwC2taieuG3LWQIbAitzbH2");
-        user.appendLeagueIds("X3gM62138u8xM1R");
-        user.appendLeagueIds("ii63DY20eP824v3");
-        user.appendLeagueIds("w1Jdz1Kuq0w9B5x");
+        user.appendLeagueIds("4g637T91N31C97R");
+        user.appendLeagueIds("Cp3C83QslR302o9");
+        user.appendLeagueIds("NfulZ7590h0L2I8");
 
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference myRef = database.getReference("Users").child(user.getUid());
@@ -80,7 +86,7 @@ public class ExampleInstrumentedTest {
                     }
                 });
         // give up after 10 seconds if the above call to countDown never happens
-        writeSignal.await(10, TimeUnit.SECONDS);
+        writeSignal.await(2, TimeUnit.SECONDS);
 
     }
 

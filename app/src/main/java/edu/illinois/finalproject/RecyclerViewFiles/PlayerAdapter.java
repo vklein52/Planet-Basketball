@@ -19,7 +19,6 @@ import edu.illinois.finalproject.PlayerDetailActivity;
 import edu.illinois.finalproject.R;
 import edu.illinois.finalproject.SimulationFiles.Player;
 import edu.illinois.finalproject.SimulationFiles.Position;
-import edu.illinois.finalproject.SimulationFiles.RandomUtils;
 
 /**
  * Created by vijay on 12/6/2017.
@@ -120,9 +119,7 @@ public class PlayerAdapter extends RecyclerView.Adapter<PlayerAdapter.PlayerView
         void bind(final Player player) {
             nameView.setText(player.getName());
 
-            //Todo 5: Figure out how to put quotes here
-            String height = "6'" + RandomUtils.randInt(0, 11) + "''";
-            heightView.setText(height);
+            heightView.setText(player.displayHeight());
 
             posView.setText(Position.asAbbreviatedString(player.getPosition()));
 
