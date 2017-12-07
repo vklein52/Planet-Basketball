@@ -30,7 +30,8 @@
         <activity android:name=".LeagueViewActivity" />
         <activity android:name=".RecyclerViewFiles.PlayerListViewActivity" />
         <activity android:name=".PlayerDetailActivity" />
-        <activity android:name=".RecyclerViewFiles.GameListActivity"></activity>
+        <activity android:name=".RecyclerViewFiles.GameListActivity" />
+        <activity android:name=".GameDetailActivity"></activity>
     </application>
 
 </manifest>
