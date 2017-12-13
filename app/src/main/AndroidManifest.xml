@@ -31,7 +31,8 @@
         <activity android:name=".RecyclerViewFiles.PlayerListViewActivity" />
         <activity android:name=".PlayerDetailActivity" />
         <activity android:name=".RecyclerViewFiles.GameListActivity" />
-        <activity android:name=".GameDetailActivity"></activity>
+        <activity android:name=".GameDetailActivity" />
+        <activity android:name=".RecyclerViewFiles.OnlineUsersListActivity"></activity>
     </application>
 
 </manifest>

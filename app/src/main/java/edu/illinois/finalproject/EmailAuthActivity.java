@@ -1,15 +1,10 @@
 package edu.illinois.finalproject;
 
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.annotation.VisibleForTesting;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
@@ -22,9 +17,11 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
-import edu.illinois.finalproject.R;
 import edu.illinois.finalproject.RecyclerViewFiles.LeagueListActivity;
+import edu.illinois.finalproject.SimulationFiles.User;
 
 public class EmailAuthActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -101,8 +98,14 @@ public class EmailAuthActivity extends AppCompatActivity implements View.OnClick
                             Toast.makeText(EmailAuthActivity.this, "Failed",
                                     Toast.LENGTH_SHORT).show();
                         } else {
-                            startActivity(new Intent(context, LeagueListActivity.class));
-                            finish();
+                            FirebaseUser fbUser = mAuth.getCurrentUser();
+                            if (fbUser != null) {
+                                DatabaseReference userRef = FirebaseDatabase.getInstance().getReference("Users").child(fbUser.getUid());
+                                User curr = new User(fbUser.getUid());
+                                userRef.setValue(curr);
+                                startActivity(new Intent(context, LeagueListActivity.class));
+                                finish();
+                            }
                         }
 
                         // ...

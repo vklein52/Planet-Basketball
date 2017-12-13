@@ -3,7 +3,6 @@ package edu.illinois.finalproject.SimulationFiles;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -19,7 +18,7 @@ public class User implements Parcelable {
 
     public User(String uid) {
         this.uid = uid;
-        leagueIds = new ArrayList<>();
+        leagueIds = null;
     }
 
     public void appendLeagueIds(String id) {
@@ -70,4 +69,23 @@ public class User implements Parcelable {
             return new User[size];
         }
     };
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        User user = (User) o;
+
+        if (uid != null ? !uid.equals(user.uid) : user.uid != null) return false;
+        return leagueIds != null ? leagueIds.equals(user.leagueIds) : user.leagueIds == null;
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result = uid != null ? uid.hashCode() : 0;
+        result = 31 * result + (leagueIds != null ? leagueIds.hashCode() : 0);
+        return result;
+    }
 }
