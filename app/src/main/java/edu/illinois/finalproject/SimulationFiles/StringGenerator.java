@@ -8,7 +8,7 @@ import java.util.Random;
  * Created by vijay on 11/13/2017.
  */
 
-class StringGenerator {
+public class StringGenerator {
 
     private final static String LETTERS = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
     private final static String NUMBERS = "0123456789";

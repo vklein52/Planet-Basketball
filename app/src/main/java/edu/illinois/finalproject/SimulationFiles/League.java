@@ -17,11 +17,13 @@ public class League implements Parcelable {
     public static final String FIRST_TEAM = "First Team", SECOND_TEAM = "Second Team";
     private Map<String, Team> teams;
     private List<Game> games;
+    private boolean draftCompleted;
     private String id;
 
     public League() {
         populateTeams();
         populateSampleGames();
+        draftCompleted = false;
         this.id = StringGenerator.genRandomString(15);
     }
 

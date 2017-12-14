@@ -1,12 +1,16 @@
 package edu.illinois.finalproject.RecyclerViewFiles;
 
+import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.AlertDialog;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.ChildEventListener;
@@ -18,17 +22,22 @@ import com.google.firebase.database.FirebaseDatabase;
 import java.util.ArrayList;
 import java.util.List;
 
+import edu.illinois.finalproject.AlertDialogFactory;
 import edu.illinois.finalproject.R;
+import edu.illinois.finalproject.SimulationFiles.Draft;
+import edu.illinois.finalproject.SimulationFiles.OnlineUser;
+import edu.illinois.finalproject.SimulationFiles.StringGenerator;
 import edu.illinois.finalproject.SimulationFiles.User;
 
 public class OnlineUsersListActivity extends AppCompatActivity {
 
     public static final String USER = "USER";
     private static final String IS_ONLINE = "isOnline";
-    private static final String INVITATIONS = "Invitations";
+    public static final String INVITATIONS = "Invitations";
 
     private User user;
-    private List<String> onlineUsers = new ArrayList<>();
+    private Context context;
+    private List<OnlineUser> onlineUsers = new ArrayList<>();
     private OnlineUserAdapter onlineUserAdapter;
 
     @Override
@@ -40,6 +49,7 @@ public class OnlineUsersListActivity extends AppCompatActivity {
         initializeRecyclerView();
         updateOnlineUsers();
 
+        context = this;
         user = getIntent().getParcelableExtra(USER);
         handleInvitations();
     }
@@ -62,8 +72,11 @@ public class OnlineUsersListActivity extends AppCompatActivity {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
                 if (!dataSnapshot.getKey().equals(user.getUid())) {
-                    onlineUsers.add(dataSnapshot.getValue(String.class));
-                    onlineUserAdapter.notifyDataSetChanged();
+                    OnlineUser user = dataSnapshot.getValue(OnlineUser.class);
+                    if (!onlineUsers.contains(user)) {
+                        onlineUsers.add(user);
+                        onlineUserAdapter.notifyDataSetChanged();
+                    }
                 }
             }
 
@@ -74,7 +87,7 @@ public class OnlineUsersListActivity extends AppCompatActivity {
 
             @Override
             public void onChildRemoved(DataSnapshot dataSnapshot) {
-                onlineUsers.remove(dataSnapshot.getValue(String.class));
+                onlineUsers.remove(dataSnapshot.getValue(OnlineUser.class));
                 onlineUserAdapter.notifyDataSetChanged();
             }
 
@@ -107,12 +120,44 @@ public class OnlineUsersListActivity extends AppCompatActivity {
     }
 
     private void handleInvitations() {
-        DatabaseReference invRef = FirebaseDatabase.getInstance().getReference("Users").child(user.getUid()).child(INVITATIONS);
+        final DatabaseReference invRef = FirebaseDatabase.getInstance().getReference("Users").child(user.getUid()).child(INVITATIONS);
         invRef.addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-                String otherEmail = dataSnapshot.getValue(String.class);
-                buildAlertDialog(otherEmail);
+                final String otherUid = dataSnapshot.getKey();
+                final String otherEmail = dataSnapshot.getValue(String.class);
+                String message = otherEmail + " has invited you to start a league!";
+
+                DialogInterface.OnClickListener positive = new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        invRef.removeValue();
+                        FirebaseUser fbUser = FirebaseAuth.getInstance().getCurrentUser();
+
+                        final String draftKey = StringGenerator.genRandomString(15);
+                        //No null pointer for email because app requires email authentication
+                        Draft draft = new Draft(fbUser.getEmail(), otherEmail);
+
+                        DatabaseReference draftRef = FirebaseDatabase.getInstance().getReference("Drafts").child(draftKey);
+                        draftRef.setValue(draft).addOnCompleteListener(new OnCompleteListener<Void>() {
+                            @Override
+                            public void onComplete(@NonNull Task<Void> task) {
+                                DatabaseReference mDraftRef = FirebaseDatabase.getInstance().getReference("Users").child(user.getUid()).child("Drafts").child(draftKey);
+                                mDraftRef.setValue(draftKey);
+                                DatabaseReference oDraftRef = FirebaseDatabase.getInstance().getReference("Users").child(otherUid).child("Drafts").child(draftKey);
+                                oDraftRef.setValue(draftKey);
+                            }
+                        });
+                        //Todo: Start the league
+                    }
+                };
+                DialogInterface.OnClickListener negative = new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        invRef.removeValue();
+                    }
+                };
+                AlertDialogFactory.buildAlertDialog(message, "Invitation!", positive, negative, context).show();
             }
 
             @Override
@@ -138,46 +183,57 @@ public class OnlineUsersListActivity extends AppCompatActivity {
     }
 
     @Override
-    protected void onResume() {
-        super.onResume();
+    protected void onStart() {
+        super.onStart();
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         if (user != null && user.getEmail() != null) {
+            OnlineUser onlineUser = new OnlineUser(user.getEmail(), user.getUid());
             DatabaseReference myRef = FirebaseDatabase.getInstance().getReference("OnlineUsers").child(user.getUid());
             myRef.onDisconnect().removeValue();
-            myRef.setValue(user.getEmail());
+            myRef.setValue(onlineUser);
+
+            DatabaseReference draftRef = FirebaseDatabase.getInstance().getReference("Users").child(user.getUid()).child("Drafts");
+            draftRef.addChildEventListener(new ChildEventListener() {
+                @Override
+                public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+                    Intent intent = new Intent(context, DraftActivity.class);
+                    intent.putExtra(DraftActivity.DRAFT_KEY, dataSnapshot.getKey());
+                    startActivity(intent);
+                }
+
+                @Override
+                public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+
+                }
+
+                @Override
+                public void onChildRemoved(DataSnapshot dataSnapshot) {
+
+                }
+
+                @Override
+                public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+
+                }
+
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+
+                }
+            });
         }
     }
 
     @Override
-    protected void onPause() {
-        super.onPause();
+    protected void onStop() {
+        super.onStop();
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         if (user != null && user.getEmail() != null) {
             DatabaseReference myRef = FirebaseDatabase.getInstance().getReference("OnlineUsers").child(user.getUid());
-            myRef.onDisconnect().removeValue();
             myRef.removeValue();
         }
+        //Todo: ORIENTATION CHANGES YA BOZO
     }
 
-    private void buildAlertDialog(String otherEmail) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
 
-        builder.setMessage(otherEmail + " has invited you to start a league!")
-                .setTitle("Invitation");
-
-        builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int id) {
-                // TODO: START THE LEAGUE
-            }
-        });
-        builder.setNegativeButton("Deny", new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int id) {
-                // TODO: GET RID OF THE INVITATION
-            }
-        });
-
-        AlertDialog dialog = builder.create();
-        dialog.show();
-
-    }
 }
