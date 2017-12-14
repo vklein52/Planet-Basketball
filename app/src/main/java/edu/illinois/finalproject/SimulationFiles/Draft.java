@@ -1,8 +1,5 @@
 package edu.illinois.finalproject.SimulationFiles;
 
-import android.os.Parcel;
-import android.os.Parcelable;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -10,28 +7,31 @@ import java.util.List;
  * Created by vijay on 12/13/2017.
  */
 
-public class Draft implements Parcelable {
+public class Draft {
 
     private final static int DRAFT_SIZE = 40;
 
+    //Todo: Rename the ids to emails
     private List<Player> availablePlayers;
     private List<Player> firstTeamPlayers;
     private List<Player> secondTeamPlayers;
     private String firstTeamId;
     private String secondTeamId;
     private String currTeamSelectingId;
+    private String key;
 
     public Draft() {
 
     }
 
-    public Draft(String firstTeamId, String secondTeamId) {
+    public Draft(String firstTeamId, String secondTeamId, String key) {
         genPlayers();
         this.firstTeamId = firstTeamId;
         this.secondTeamId = secondTeamId;
         firstTeamPlayers = new ArrayList<>();
         secondTeamPlayers = new ArrayList<>();
         currTeamSelectingId = firstTeamId;
+        this.key = key;
     }
 
     public List<Player> getAvailablePlayers() {
@@ -82,6 +82,14 @@ public class Draft implements Parcelable {
         this.currTeamSelectingId = currTeamSelectingId;
     }
 
+    public String getKey() {
+        return key;
+    }
+
+    public void setKey(String key) {
+        this.key = key;
+    }
+
     private void genPlayers() {
         availablePlayers = new ArrayList<>();
         for (int i = 0; i < DRAFT_SIZE; i++) {
@@ -89,39 +97,22 @@ public class Draft implements Parcelable {
         }
     }
 
-    @Override
-    public int describeContents() {
-        return 0;
-    }
+    public void draftPlayer(String email, Player player) {
+        availablePlayers.remove(player);
 
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeTypedList(this.availablePlayers);
-        dest.writeTypedList(this.firstTeamPlayers);
-        dest.writeTypedList(this.secondTeamPlayers);
-        dest.writeString(this.firstTeamId);
-        dest.writeString(this.secondTeamId);
-        dest.writeString(this.currTeamSelectingId);
-    }
-
-    protected Draft(Parcel in) {
-        this.availablePlayers = in.createTypedArrayList(Player.CREATOR);
-        this.firstTeamPlayers = in.createTypedArrayList(Player.CREATOR);
-        this.secondTeamPlayers = in.createTypedArrayList(Player.CREATOR);
-        this.firstTeamId = in.readString();
-        this.secondTeamId = in.readString();
-        this.currTeamSelectingId = in.readString();
-    }
-
-    public static final Parcelable.Creator<Draft> CREATOR = new Parcelable.Creator<Draft>() {
-        @Override
-        public Draft createFromParcel(Parcel source) {
-            return new Draft(source);
+        if (email.equals(firstTeamId)) {
+            if (firstTeamPlayers == null) {
+                firstTeamPlayers = new ArrayList<>();
+            }
+            firstTeamPlayers.add(player);
+            currTeamSelectingId = secondTeamId;
+        } else {
+            if (secondTeamPlayers == null) {
+                secondTeamPlayers = new ArrayList<>();
+            }
+            secondTeamPlayers.add(player);
+            currTeamSelectingId = firstTeamId;
         }
+    }
 
-        @Override
-        public Draft[] newArray(int size) {
-            return new Draft[size];
-        }
-    };
 }

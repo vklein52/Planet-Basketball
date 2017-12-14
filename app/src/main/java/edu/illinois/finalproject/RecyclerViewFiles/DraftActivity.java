@@ -64,12 +64,7 @@ public class DraftActivity extends AppCompatActivity implements SearchView.OnQue
             public void onDataChange(DataSnapshot dataSnapshot) {
                 //Todo: Fix all of this for the Draft
                 draft = dataSnapshot.getValue(Draft.class);
-                if (draftablePlayers.size() > 0) {
-                    draftablePlayers.retainAll(draft.getAvailablePlayers());
-                } else {
-                    draftablePlayers.addAll(draft.getAvailablePlayers());
-                }
-                playerAdapter.notifyDataSetChanged();
+                playerAdapter.setDraft(draft);
             }
 
             @Override
@@ -93,7 +88,7 @@ public class DraftActivity extends AppCompatActivity implements SearchView.OnQue
 
         downloadDraft();
 
-        playerAdapter = new PlayerAdapter(draftablePlayers, new PlayerComparator(), this);
+        playerAdapter = new PlayerAdapter(draftablePlayers, new PlayerComparator(), true, this);
         recyclerView.setAdapter(playerAdapter);
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);

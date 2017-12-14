@@ -1,9 +1,8 @@
 package edu.illinois.finalproject;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.view.View;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -15,13 +14,14 @@ import edu.illinois.finalproject.SimulationFiles.Position;
 public class PlayerDetailActivity extends AppCompatActivity {
 
     public static final String PLAYER = "PLAYER";
+    public static final String IS_DRAFT_LAYOUT = "IS_DRAFT_LAYOUT";
 
     private Player player;
+    private boolean isDraftLayout;
 
     private ImageView faceView;
     private TextView heightView;
     private TextView ageView;
-    private Button draftButton;
     private TextView posView;
     private TextView firstHalfAttributesView;
     private TextView secondHalfAttributesView;
@@ -30,9 +30,12 @@ public class PlayerDetailActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_player_detail);
+        Intent intent = getIntent();
 
-        player = getIntent().getParcelableExtra(PLAYER);
+        player = intent.getParcelableExtra(PLAYER);
         setTitle(player.getName());
+
+        isDraftLayout = intent.getBooleanExtra(IS_DRAFT_LAYOUT, false);
 
         initializeViews();
         populateViews();
@@ -42,8 +45,6 @@ public class PlayerDetailActivity extends AppCompatActivity {
         faceView = (ImageView) findViewById(R.id.player_detail_face);
         heightView = (TextView) findViewById(R.id.player_detail_height);
         ageView = (TextView) findViewById(R.id.player_detail_age);
-        draftButton = (Button) findViewById(R.id.player_detail_draft_button);
-        draftButton.setVisibility(View.INVISIBLE);
         posView = (TextView) findViewById(R.id.player_detail_position);
         firstHalfAttributesView = (TextView) findViewById(R.id.player_detail_first_attributes);
         secondHalfAttributesView = (TextView) findViewById(R.id.player_detail_second_attributes);

@@ -22,4 +22,17 @@ public class AlertDialogFactory {
 
         return builder.create();
     }
+
+    public static AlertDialog buildAlertDialog(String message, String title, Context context) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+
+        builder.setMessage(message)
+                .setTitle(title);
+
+        builder.setNeutralButton("Ok", null);
+
+        return builder.create();
+    }
+
+
 }

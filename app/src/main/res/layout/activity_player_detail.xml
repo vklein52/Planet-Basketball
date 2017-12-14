@@ -46,7 +46,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_weight="1"
+                android:layout_weight="3"
                 android:orientation="vertical"
                 tools:gravity="center">
 
@@ -54,6 +54,7 @@
                     android:id="@+id/player_detail_height"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:gravity="center"
                     android:text="Height"
                     android:textColor="@color/textColor"
                     android:textSize="24sp" />
@@ -62,22 +63,12 @@
                     android:id="@+id/player_detail_age"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:gravity="center"
                     android:text="Age"
                     android:textColor="@color/textColor"
                     android:textSize="24sp" />
 
             </LinearLayout>
-
-            <Button
-                android:id="@+id/player_detail_draft_button"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:background="@color/colorAccentDark"
-                android:text="Draft"
-                android:textAllCaps="false"
-                android:textColor="@android:color/white"
-                android:textSize="20sp" />
 
         </LinearLayout>
 

@@ -51,7 +51,7 @@ public class PlayerListViewActivity extends AppCompatActivity implements SearchV
 
         RecyclerView recyclerView = (RecyclerView) findViewById(R.id.player_list_recycler_view);
 
-        playerAdapter = new PlayerAdapter(team.getPlayers(), new PlayerComparator(), this);
+        playerAdapter = new PlayerAdapter(team.getPlayers(), new PlayerComparator(), false, this);
         recyclerView.setAdapter(playerAdapter);
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);

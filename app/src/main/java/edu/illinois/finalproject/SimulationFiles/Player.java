@@ -165,4 +165,33 @@ public class Player implements Comparable<Player>, Parcelable {
             return new Player[size];
         }
     };
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Player player = (Player) o;
+
+        if (age != player.age) return false;
+        if (Double.compare(player.height, height) != 0) return false;
+        if (attributes != null ? !attributes.equals(player.attributes) : player.attributes != null)
+            return false;
+        if (name != null ? !name.equals(player.name) : player.name != null) return false;
+        return position == player.position;
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result;
+        long temp;
+        result = attributes != null ? attributes.hashCode() : 0;
+        result = 31 * result + (name != null ? name.hashCode() : 0);
+        result = 31 * result + age;
+        temp = Double.doubleToLongBits(height);
+        result = 31 * result + (int) (temp ^ (temp >>> 32));
+        result = 31 * result + (position != null ? position.hashCode() : 0);
+        return result;
+    }
 }
