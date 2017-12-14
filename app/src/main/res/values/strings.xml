@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">FinalProject</string>
+    <string name="app_name">Planet Basketball</string>
     <string name="title_activity_phone_auth">PhoneAuthActivity</string>
     <string name="title_activity_email_auth">EmailAuthActivity</string>
     <string name="title_activity_email_password">Sign in</string>
