@@ -168,7 +168,7 @@ public class PlayerAdapter extends RecyclerView.Adapter<PlayerAdapter.PlayerView
                         FirebaseUser fbUser = FirebaseAuth.getInstance().getCurrentUser();
 
                         //If button is clicked, we know that the draft is not null
-                        String currPick = draft.getCurrTeamSelectingId();
+                        String currPick = draft.getCurrTeamSelectingEmail();
                         final String mEmail = fbUser.getEmail();
 
                         if (currPick.equals(mEmail)) {

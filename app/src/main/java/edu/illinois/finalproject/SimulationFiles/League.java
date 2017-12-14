@@ -17,23 +17,32 @@ public class League implements Parcelable {
     public static final String FIRST_TEAM = "First Team", SECOND_TEAM = "Second Team";
     private Map<String, Team> teams;
     private List<Game> games;
-    private boolean draftCompleted;
     private String id;
 
     public League() {
-        populateTeams();
-        populateSampleGames();
-        draftCompleted = false;
+
+    }
+
+    public League(Draft draft) {
+        this(draft.getFirstTeamEmail(), draft.getFirstTeamPlayers(), draft.getSecondTeamEmail(), draft.getSecondTeamPlayers());
+    }
+
+    public League(String firstEmail, List<Player> firstPlayers, String secondEmail, List<Player> secondPlayers) {
+        Team first = new Team(firstEmail, firstPlayers);
+        Team second = new Team(secondEmail, secondPlayers);
+        populateTeams(first, second);
+        populateGames();
+
         this.id = StringGenerator.genRandomString(15);
     }
 
-    private void populateTeams() {
+    private void populateTeams(Team first, Team second) {
         teams = new HashMap<>();
-        teams.put(FIRST_TEAM, new Team(FIRST_TEAM));
-        teams.put(SECOND_TEAM, new Team(SECOND_TEAM));
+        teams.put(FIRST_TEAM, first);
+        teams.put(SECOND_TEAM, second);
     }
 
-    private void populateSampleGames() {
+    private void populateGames() {
         games = new ArrayList<>();
         for (int i = 0; i < 11; i++) {
             Team home, away;
@@ -50,7 +59,13 @@ public class League implements Parcelable {
 
     public void simGame(Team home, Team away) {
         Game game = new Game(home.getName(), away.getName());
-        Team winner = teams.get(game.simulate());
+        String winTeamName = game.simulate();
+        if (teams.get(FIRST_TEAM).getName().equals(winTeamName)) {
+            winTeamName = FIRST_TEAM;
+        } else {
+            winTeamName = SECOND_TEAM;
+        }
+        Team winner = teams.get(winTeamName);
         games.add(game);
 
         winner.setWins(winner.getWins() + 1);

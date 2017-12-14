@@ -136,7 +136,7 @@ public class OnlineUsersListActivity extends AppCompatActivity {
 
                         final String draftKey = StringGenerator.genRandomString(15);
                         //No null pointer for email because app requires email authentication
-                        Draft draft = new Draft(fbUser.getEmail(), otherEmail, draftKey);
+                        Draft draft = new Draft(fbUser.getEmail(), fbUser.getUid(), otherEmail, otherUid, draftKey);
 
                         DatabaseReference draftRef = FirebaseDatabase.getInstance().getReference("Drafts").child(draftKey);
                         draftRef.setValue(draft).addOnCompleteListener(new OnCompleteListener<Void>() {

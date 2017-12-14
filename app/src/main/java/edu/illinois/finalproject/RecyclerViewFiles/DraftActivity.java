@@ -29,7 +29,9 @@ import edu.illinois.finalproject.MenuFiles.SettingsFragment;
 import edu.illinois.finalproject.MenuFiles.SortType;
 import edu.illinois.finalproject.R;
 import edu.illinois.finalproject.SimulationFiles.Draft;
+import edu.illinois.finalproject.SimulationFiles.League;
 import edu.illinois.finalproject.SimulationFiles.Player;
+import edu.illinois.finalproject.SimulationFiles.User;
 
 public class DraftActivity extends AppCompatActivity implements SearchView.OnQueryTextListener {
 
@@ -41,6 +43,8 @@ public class DraftActivity extends AppCompatActivity implements SearchView.OnQue
     private Draft draft;
     private String draftKey;
 
+    private User firstUser;
+    private User secondUser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,9 +66,14 @@ public class DraftActivity extends AppCompatActivity implements SearchView.OnQue
         myRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                //Todo: Fix all of this for the Draft
                 draft = dataSnapshot.getValue(Draft.class);
-                playerAdapter.setDraft(draft);
+                if (draft == null) {
+                    finish();
+                } else if (draft.over() && draft.usersTurnToPick()) {
+                    createLeague(draft);
+                } else {
+                    playerAdapter.setDraft(draft);
+                }
             }
 
             @Override
@@ -74,6 +83,53 @@ public class DraftActivity extends AppCompatActivity implements SearchView.OnQue
         });
     }
 
+    private void createLeague(Draft draft) {
+        League league = new League(draft);
+        String leagueId = league.getId();
+
+        final FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference leagueRef = database.getReference("Leagues").child(leagueId);
+
+        leagueRef.setValue(league);
+        updateUserLeagueIds(leagueId);
+
+        DatabaseReference draftRef = database.getReference("Drafts").child(draft.getKey());
+        draftRef.removeValue();
+    }
+
+    private void updateUserLeagueIds(final String leagueId) {
+        final FirebaseDatabase database = FirebaseDatabase.getInstance();
+        //Todo: null pathstring
+        final DatabaseReference firstRef = database.getReference("Users").child(draft.getFirstTeamId());
+        firstRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                firstUser = dataSnapshot.getValue(User.class);
+                firstUser.appendLeagueIds(leagueId);
+                firstRef.setValue(firstUser);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
+        final DatabaseReference secondRef = database.getReference("Users").child(draft.getSecondTeamId());
+        secondRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                secondUser = dataSnapshot.getValue(User.class);
+                secondUser.appendLeagueIds(leagueId);
+                secondRef.setValue(secondUser);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+    }
 
     @Override
     protected void onResume() {
@@ -95,7 +151,6 @@ public class DraftActivity extends AppCompatActivity implements SearchView.OnQue
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setHasFixedSize(true);
     }
-
 
     private void checkSortType() {
         SortType temp = getPreferencesSortType();

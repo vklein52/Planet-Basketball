@@ -3,6 +3,7 @@ package edu.illinois.finalproject.SimulationFiles;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -22,7 +23,12 @@ public class User implements Parcelable {
     }
 
     public void appendLeagueIds(String id) {
-        leagueIds.add(id);
+        if (leagueIds == null) {
+            leagueIds = new ArrayList<>();
+        }
+        if (!leagueIds.contains(id)) {
+            leagueIds.add(id);
+        }
     }
 
     public String getUid() {

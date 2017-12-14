@@ -27,6 +27,12 @@ public class Team implements Parcelable {
         wins = 0;
     }
 
+    public Team(String name, List<Player> players) {
+        this.name = name;
+        this.players = players;
+        wins = 0;
+    }
+
     private void populatePlayers() {
         players = new ArrayList<>();
         for (int i = 0; i < 13; i++) {
