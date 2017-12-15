@@ -16,15 +16,15 @@
             android:id="@+id/game_list_item_home_team_name"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="3dp"
+            android:layout_gravity="center"
+            android:layout_marginBottom="8dp"
             android:layout_marginLeft="8dp"
             android:layout_marginRight="8dp"
             android:layout_marginTop="8dp"
             android:layout_weight="3"
             android:text="Home Team"
             android:textColor="@color/textColor"
-            android:textSize="20sp"
-            android:layout_gravity="center" />
+            android:textSize="20sp" />
 
         <TextView
             android:id="@+id/game_list_item_home_team_score"
@@ -35,6 +35,7 @@
             android:layout_marginTop="8dp"
             android:layout_weight="1"
             android:text="Score"
+            android:textAlignment="textEnd"
             android:textColor="@color/textColor"
             android:textSize="30sp" />
 
@@ -49,23 +50,26 @@
             android:id="@+id/game_list_item_away_team_name"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginBottom="8dp"
             android:layout_marginLeft="8dp"
             android:layout_marginRight="8dp"
             android:layout_marginTop="8dp"
             android:layout_weight="3"
             android:text="Away Team"
             android:textColor="@color/textColor"
-            android:textSize="20sp"
-            android:layout_gravity="center" />
+            android:textSize="20sp" />
 
         <TextView
             android:id="@+id/game_list_item_away_team_score"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
             android:layout_marginRight="8dp"
             android:layout_marginTop="8dp"
             android:layout_weight="1"
             android:text="Score"
+            android:textAlignment="textEnd"
             android:textColor="@color/textColor"
             android:textSize="30sp" />
 
