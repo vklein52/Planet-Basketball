@@ -8,6 +8,8 @@ import android.os.Parcelable;
  */
 
 public class Game implements Parcelable {
+    private Team homeTeam;
+    private Team awayTeam;
     private String homeName;
     private String awayName;
     private int homeScore;
@@ -17,9 +19,11 @@ public class Game implements Parcelable {
 
     }
 
-    public Game(String homeName, String awayName) {
-        this.homeName = homeName;
-        this.awayName = awayName;
+    public Game(Team homeTeam, Team awayTeam) {
+        this.homeTeam = homeTeam;
+        this.awayTeam = awayTeam;
+        this.homeName = homeTeam.getName();
+        this.awayName = awayTeam.getName();
         homeScore = 0;
         awayScore = 0;
     }
@@ -30,8 +34,21 @@ public class Game implements Parcelable {
      * @return The name of the winning team
      */
     public String simulate() {
-        homeScore = RandomUtils.randInt(30, 70);
-        awayScore = RandomUtils.randIntExclude(40, 60, homeScore);
+        double homeMean = homeTeam.calculateOverall();
+        double homeStdDev = Math.abs(homeTeam.offensiveRating() - homeTeam.defensiveRating()) + 4;
+        homeScore = (int) (RandomUtils.randGaussian(homeMean, homeStdDev) + 0.5);
+
+        double awayMean = awayTeam.calculateOverall();
+        double awayStdDev = Math.abs(awayTeam.offensiveRating() - awayTeam.defensiveRating()) + 4;
+        awayScore = (int) (RandomUtils.randGaussian(awayMean, awayStdDev) + 0.5);
+
+        if (homeScore == awayScore) {
+            if (RandomUtils.randInt(0, 1) == 0) {
+                homeScore += 1;
+            } else {
+                awayScore += 1;
+            }
+        }
 
         if (homeScore > awayScore) {
             return homeName;

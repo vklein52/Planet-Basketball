@@ -65,7 +65,23 @@ public class Team implements Parcelable {
     }
 
     public int calculateOverall() {
-        return RandomUtils.randInt(30,80);
+        return (int) (offensiveRating() + defensiveRating()) / 2;
+    }
+
+    public double offensiveRating() {
+        double sum = 0.0;
+        for (Player player : players) {
+            sum += player.offensiveRating();
+        }
+        return sum / players.size();
+    }
+
+    public double defensiveRating() {
+        double sum = 0.0;
+        for (Player player : players) {
+            sum += player.defensiveRating();
+        }
+        return sum / players.size();
     }
 
     @Override

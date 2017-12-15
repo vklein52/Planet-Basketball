@@ -58,7 +58,7 @@ public class League implements Parcelable {
     }
 
     public void simGame(Team home, Team away) {
-        Game game = new Game(home.getName(), away.getName());
+        Game game = new Game(home, away);
         String winTeamName = game.simulate();
         if (teams.get(FIRST_TEAM).getName().equals(winTeamName)) {
             winTeamName = FIRST_TEAM;

@@ -67,6 +67,7 @@ public class DraftActivity extends AppCompatActivity implements SearchView.OnQue
         final FirebaseDatabase database = FirebaseDatabase.getInstance();
 
         DatabaseReference myRef = database.getReference("Drafts").child(draftKey);
+        myRef.onDisconnect().removeValue();
 
         myRef.addValueEventListener(new ValueEventListener() {
             @Override

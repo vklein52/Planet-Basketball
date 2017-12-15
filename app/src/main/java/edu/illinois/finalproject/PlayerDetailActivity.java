@@ -6,6 +6,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.firebase.ui.storage.images.FirebaseImageLoader;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+
 import java.util.Map;
 
 import edu.illinois.finalproject.SimulationFiles.Player;
@@ -52,7 +57,11 @@ public class PlayerDetailActivity extends AppCompatActivity {
 
     private void populateViews() {
         //Todo Faces stuff here and height stuff for the player
-        faceView.setImageDrawable(player.faceAsDrawable(this));
+        StorageReference faceRef = FirebaseStorage.getInstance().getReference().child("faces/" + player.getKey());
+        Glide.with(this)
+                .using(new FirebaseImageLoader())
+                .load(faceRef)
+                .into(faceView);
         heightView.setText(player.displayHeight());
 
         String ageText = "Age: " + player.getAge();

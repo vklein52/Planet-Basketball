@@ -102,22 +102,6 @@ public class OnlineUsersListActivity extends AppCompatActivity {
 
             }
         });
-
-//        myRef.addValueEventListener(new ValueEventListener() {
-//            @Override
-//            public void onDataChange(DataSnapshot dataSnapshot) {
-//                //onlineUsers.clear();
-//                for (DataSnapshot userSnapshot : dataSnapshot.getChildren()) {
-//                    onlineUsers.add(userSnapshot.getValue(String.class));
-//                }
-//                onlineUserAdapter.notifyDataSetChanged();
-//            }
-//
-//            @Override
-//            public void onCancelled(DatabaseError databaseError) {
-//
-//            }
-//        });
     }
 
     private void handleInvitations() {
@@ -195,6 +179,7 @@ public class OnlineUsersListActivity extends AppCompatActivity {
             myRef.setValue(onlineUser);
 
             DatabaseReference draftRef = FirebaseDatabase.getInstance().getReference("Users").child(user.getUid()).child("Drafts");
+            draftRef.onDisconnect().removeValue();
             draftRef.addChildEventListener(new ChildEventListener() {
                 @Override
                 public void onChildAdded(DataSnapshot dataSnapshot, String s) {

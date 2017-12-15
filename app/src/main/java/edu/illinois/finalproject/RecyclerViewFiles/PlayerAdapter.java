@@ -3,8 +3,6 @@ package edu.illinois.finalproject.RecyclerViewFiles;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.drawable.Drawable;
-import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -15,8 +13,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
+import com.bumptech.glide.Glide;
+import com.firebase.ui.storage.images.FirebaseImageLoader;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
@@ -34,7 +32,6 @@ import edu.illinois.finalproject.MenuFiles.PlayerComparator;
 import edu.illinois.finalproject.PlayerDetailActivity;
 import edu.illinois.finalproject.R;
 import edu.illinois.finalproject.SimulationFiles.Draft;
-import edu.illinois.finalproject.SimulationFiles.Faces;
 import edu.illinois.finalproject.SimulationFiles.Player;
 import edu.illinois.finalproject.SimulationFiles.Position;
 
@@ -89,6 +86,7 @@ public class PlayerAdapter extends RecyclerView.Adapter<PlayerAdapter.PlayerView
         players = draft.getAvailablePlayers();
         playersCopy = new ArrayList<>();
         playersCopy.addAll(players);
+        sortData();
         notifyDataSetChanged();
     }
 
@@ -153,21 +151,12 @@ public class PlayerAdapter extends RecyclerView.Adapter<PlayerAdapter.PlayerView
          */
         void bind(final Player player) {
             playerFace.setImageDrawable(null);
-            if (player.face() == null) {
-                StorageReference faceRef = FirebaseStorage.getInstance().getReference().child("faces/" + player.getKey());
-                //Don't download anything bigger than 1mb
-                faceRef.getBytes(1000000).addOnCompleteListener(new OnCompleteListener<byte[]>() {
-                    @Override
-                    public void onComplete(@NonNull Task<byte[]> task) {
-                        byte[] arr = task.getResult();
-                        player.setFace(arr);
-                        Drawable face = Faces.byteArrayToDrawable(arr, context);
-                        playerFace.setImageDrawable(face);
-                    }
-                });
-            } else {
-                playerFace.setImageDrawable(player.faceAsDrawable(context));
-            }
+            StorageReference faceRef = FirebaseStorage.getInstance().getReference().child("faces/" + player.getKey());
+            Glide.with(context)
+                    .using(new FirebaseImageLoader())
+                    .load(faceRef)
+                    .into(playerFace);
+
 
             nameView.setText(player.getName());
 
