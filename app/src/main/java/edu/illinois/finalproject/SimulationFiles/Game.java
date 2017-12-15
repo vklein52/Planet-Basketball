@@ -15,10 +15,17 @@ public class Game implements Parcelable {
     private int homeScore;
     private int awayScore;
 
+    /**
+     * Default constructor required for Firebase compatibility
+     */
     public Game() {
 
     }
 
+    /**
+     * @param homeTeam The home team of the game
+     * @param awayTeam The away team of the game
+     */
     public Game(Team homeTeam, Team awayTeam) {
         this.homeTeam = homeTeam;
         this.awayTeam = awayTeam;
@@ -57,39 +64,72 @@ public class Game implements Parcelable {
         }
     }
 
+    /**
+     * @return The home score
+     */
     public int getHomeScore() {
         return homeScore;
     }
 
+    /**
+     * Required for Firebase compatibility
+     *
+     * @param homeScore The new home score
+     */
     public void setHomeScore(int homeScore) {
         this.homeScore = homeScore;
     }
 
+    /**
+     * @return The away score
+     */
     public int getAwayScore() {
         return awayScore;
     }
 
+    /**
+     * Required for Firebase compatibility
+     *
+     * @param awayScore The new away score
+     */
     public void setAwayScore(int awayScore) {
         this.awayScore = awayScore;
     }
 
+    /**
+     * @return The home name
+     */
     public String getHomeName() {
         return homeName;
     }
 
+    /**
+     * Required for Firebase compatibility
+     *
+     * @param homeName The new home name
+     */
     public void setHomeName(String homeName) {
         this.homeName = homeName;
     }
 
+    /**
+     * @return The away name
+     */
     public String getAwayName() {
         return awayName;
     }
 
+    /**
+     * Required for Firebase compatibility
+     *
+     * @param awayName The new away name
+     */
     public void setAwayName(String awayName) {
         this.awayName = awayName;
     }
 
 
+    //Below is generic Parcelable implementation
     @Override
     public int describeContents() {
         return 0;

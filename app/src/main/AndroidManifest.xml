@@ -13,11 +13,11 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
-        <activity android:name=".MainActivity" />
+        android:theme="@style/AppTheme"
+        android:fullBackupContent="@xml/backup_descriptor">
         <activity android:name=".MenuFiles.SettingsActivity" />
         <activity
-            android:name=".EmailAuthActivity"
+            android:name=".Activities.EmailAuthActivity"
             android:label="@string/app_name"
             android:theme="@style/AppTheme">
             <intent-filter>
@@ -27,13 +27,13 @@
             </intent-filter>
         </activity>
         <activity android:name=".RecyclerViewFiles.LeagueListActivity" />
-        <activity android:name=".LeagueViewActivity" />
+        <activity android:name=".Activities.LeagueViewActivity" />
         <activity android:name=".RecyclerViewFiles.PlayerListViewActivity" />
-        <activity android:name=".PlayerDetailActivity" />
+        <activity android:name=".Activities.PlayerDetailActivity" />
         <activity android:name=".RecyclerViewFiles.GameListActivity" />
-        <activity android:name=".GameDetailActivity" />
+        <activity android:name=".Activities.GameDetailActivity" />
         <activity android:name=".RecyclerViewFiles.OnlineUsersListActivity" />
-        <activity android:name=".RecyclerViewFiles.DraftActivity"></activity>
+        <activity android:name=".RecyclerViewFiles.DraftActivity" />
     </application>
 
 </manifest>

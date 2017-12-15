@@ -7,7 +7,7 @@
     android:layout_marginBottom="4dp"
     android:layout_marginTop="8dp"
     android:orientation="horizontal"
-    tools:context=".GameDetailActivity">
+    tools:context=".Activities.GameDetailActivity">
 
     <LinearLayout
         android:id="@+id/linearLayout7"

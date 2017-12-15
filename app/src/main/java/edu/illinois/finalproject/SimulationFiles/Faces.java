@@ -37,6 +37,14 @@ public class Faces {
             Color.parseColor("#a0940a"), Color.parseColor("#000000"), Color.parseColor("#7f6500")};
     private static int[] weirdHairColors = {Color.MAGENTA, Color.BLUE, Color.GREEN, Color.DKGRAY, Color.RED, Color.CYAN};
 
+    /**
+     * An almost incomprehensible method written over a year ago that generates a face. No one knows
+     * how it works, and no one asks.
+     *
+     * @param height The desired height of the image in pixels
+     * @param width  The desired width of the image in pixels
+     * @return A array of bytes corresponding to the image
+     */
     public static byte[] makeFace(int height, int width) {
 
         int mult = RandomUtils.randInt(10, 10);

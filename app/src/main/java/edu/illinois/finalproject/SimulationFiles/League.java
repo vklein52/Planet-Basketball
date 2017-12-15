@@ -15,18 +15,32 @@ import java.util.Map;
 public class League implements Parcelable {
 
     public static final String FIRST_TEAM = "First Team", SECOND_TEAM = "Second Team";
+    private static final int NUM_GAMES = 11;
+
     private Map<String, Team> teams;
     private List<Game> games;
     private String id;
 
+    /**
+     * Default constructor required for Firebase compatibility
+     */
     public League() {
 
     }
 
+    /**
+     * @param draft The draft from which to create this League
+     */
     public League(Draft draft) {
         this(draft.getFirstTeamEmail(), draft.getFirstTeamPlayers(), draft.getSecondTeamEmail(), draft.getSecondTeamPlayers());
     }
 
+    /**
+     * @param firstEmail    The first team's owner's email
+     * @param firstPlayers  The first team's players
+     * @param secondEmail   The second team's owner's email
+     * @param secondPlayers The second team's players
+     */
     public League(String firstEmail, List<Player> firstPlayers, String secondEmail, List<Player> secondPlayers) {
         Team first = new Team(firstEmail, firstPlayers);
         Team second = new Team(secondEmail, secondPlayers);
@@ -36,15 +50,24 @@ public class League implements Parcelable {
         this.id = StringGenerator.genRandomString(15);
     }
 
+    /**
+     * Populates the team map with the two passed teams
+     *
+     * @param first  The first team
+     * @param second The second team
+     */
     private void populateTeams(Team first, Team second) {
         teams = new HashMap<>();
         teams.put(FIRST_TEAM, first);
         teams.put(SECOND_TEAM, second);
     }
 
+    /**
+     * Sims NUM_GAMES number of games and populates the list of games accordingly
+     */
     private void populateGames() {
         games = new ArrayList<>();
-        for (int i = 0; i < 11; i++) {
+        for (int i = 0; i < NUM_GAMES; i++) {
             Team home, away;
             if ((i % 2) == 0) {
                 home = teams.get(FIRST_TEAM);
@@ -57,17 +80,24 @@ public class League implements Parcelable {
         }
     }
 
+    /**
+     * Simulates a game given the home and away team
+     *
+     * @param home The home team
+     * @param away The away team
+     */
     public void simGame(Team home, Team away) {
         Game game = new Game(home, away);
         String winTeamName = game.simulate();
+
         if (teams.get(FIRST_TEAM).getName().equals(winTeamName)) {
             winTeamName = FIRST_TEAM;
         } else {
             winTeamName = SECOND_TEAM;
         }
+
         Team winner = teams.get(winTeamName);
         games.add(game);
-
         winner.setWins(winner.getWins() + 1);
     }
 
@@ -75,45 +105,84 @@ public class League implements Parcelable {
         return teams;
     }
 
+    /**
+     * Required for Firebase compatibility
+     *
+     * @param teams The new teams
+     */
     public void setTeams(Map<String, Team> teams) {
         this.teams = teams;
     }
 
+    /**
+     * @return The list of games
+     */
     public List<Game> getGames() {
         return games;
     }
 
+    /**
+     * Required for Firebase compatibility
+     *
+     * @param games The new games
+     */
     public void setGames(List<Game> games) {
         this.games = games;
     }
 
-    //Helper functions for tests
+    /**
+     * Odd name to avoid Firebase issues with methods that start with get
+     *
+     * @return The first team
+     */
     public Team firstTeam() {
         return teams.get(FIRST_TEAM);
     }
 
+    /**
+     * Odd name to avoid Firebase issues with methods that start with get
+     *
+     * @return The first team's record
+     */
     public String firstTeamRecord() {
         return "(" + firstTeam().getWins() + ", " + secondTeam().getWins() + ")";
     }
 
+    /**
+     * Odd name to avoid Firebase issues with methods that start with get
+     *
+     * @return The second team's record
+     */
     public String secondTeamRecord() {
         return "(" + secondTeam().getWins() + ", " + firstTeam().getWins() + ")";
     }
 
-
+    /**
+     * Odd name to avoid Firebase issues with methods that start with get
+     *
+     * @return The second team
+     */
     public Team secondTeam() {
         return teams.get(SECOND_TEAM);
     }
 
+    /**
+     * @return The id of the league
+     */
     public String getId() {
         return id;
     }
 
+    /**
+     * Required for Firebase compatibility
+     *
+     * @param id The new id
+     */
     public void setId(String id) {
         this.id = id;
     }
 
-
+    //Below is generic Parcelable implementation
     @Override
     public int describeContents() {
         return 0;

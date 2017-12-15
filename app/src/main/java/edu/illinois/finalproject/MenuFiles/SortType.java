@@ -10,8 +10,8 @@ public enum SortType {
     /**
      * Helper function to translate a String representation of a SortType to a SortType
      *
-     * @param key
-     * @return
+     * @param key The string representation of the enum value
+     * @return The SortType associated with key, null if none exists
      */
     public static SortType fromString(String key) {
         switch (key) {

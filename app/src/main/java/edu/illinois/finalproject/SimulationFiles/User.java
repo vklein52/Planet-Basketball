@@ -14,14 +14,23 @@ public class User implements Parcelable {
     private String uid;
     private List<String> leagueIds;
 
+    /**
+     * Default constructor required for Firebase compatibility
+     */
     public User() {
     }
 
+    /**
+     * @param uid The uid for this user
+     */
     public User(String uid) {
         this.uid = uid;
         leagueIds = null;
     }
 
+    /**
+     * @param id The id to add to the leagueIds list
+     */
     public void appendLeagueIds(String id) {
         if (leagueIds == null) {
             leagueIds = new ArrayList<>();
@@ -47,7 +56,7 @@ public class User implements Parcelable {
         this.leagueIds = leagueIds;
     }
 
-
+    //Below is generic Parcelable implementation
     @Override
     public int describeContents() {
         return 0;
@@ -76,6 +85,7 @@ public class User implements Parcelable {
         }
     };
 
+    //Generic Equals implementation
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

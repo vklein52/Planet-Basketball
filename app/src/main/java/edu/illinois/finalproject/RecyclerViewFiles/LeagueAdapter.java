@@ -13,7 +13,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
-import edu.illinois.finalproject.LeagueViewActivity;
+import edu.illinois.finalproject.Activities.LeagueViewActivity;
 import edu.illinois.finalproject.R;
 import edu.illinois.finalproject.SimulationFiles.League;
 

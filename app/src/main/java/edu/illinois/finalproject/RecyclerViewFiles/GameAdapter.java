@@ -10,7 +10,7 @@ import android.widget.TextView;
 
 import java.util.List;
 
-import edu.illinois.finalproject.GameDetailActivity;
+import edu.illinois.finalproject.Activities.GameDetailActivity;
 import edu.illinois.finalproject.R;
 import edu.illinois.finalproject.SimulationFiles.Game;
 

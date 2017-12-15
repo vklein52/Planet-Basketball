@@ -8,27 +8,50 @@ public class OnlineUser {
     private String email;
     private String uid;
 
+    /**
+     * Generic constructor for Firebase compatibility
+     */
     public OnlineUser() {
 
     }
 
+    /**
+     * @param email The email of the online user
+     * @param uid   The uid of the online user
+     */
     public OnlineUser(String email, String uid) {
         this.email = email;
         this.uid = uid;
     }
 
+    /**
+     * @return This user's email
+     */
     public String getEmail() {
         return email;
     }
 
+    /**
+     * Required for Firebase compatibility
+     *
+     * @param email the new email
+     */
     public void setEmail(String email) {
         this.email = email;
     }
 
+    /**
+     * @return This user's uid
+     */
     public String getUid() {
         return uid;
     }
 
+    /**
+     * Required for Firebase compatibility
+     *
+     * @param uid the new uid
+     */
     public void setUid(String uid) {
         this.uid = uid;
     }

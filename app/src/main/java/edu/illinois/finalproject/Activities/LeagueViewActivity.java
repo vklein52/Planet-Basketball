@@ -1,4 +1,4 @@
-package edu.illinois.finalproject;
+package edu.illinois.finalproject.Activities;
 
 import android.content.Context;
 import android.content.Intent;
@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import edu.illinois.finalproject.R;
 import edu.illinois.finalproject.RecyclerViewFiles.GameListActivity;
 import edu.illinois.finalproject.RecyclerViewFiles.PlayerListViewActivity;
 import edu.illinois.finalproject.SimulationFiles.League;
@@ -16,7 +17,6 @@ import edu.illinois.finalproject.SimulationFiles.Team;
 public class LeagueViewActivity extends AppCompatActivity {
 
     public static final String LEAGUE = "LEAGUE";
-    private static final String TAG = LeagueViewActivity.class.getSimpleName();
 
     private League league;
     private Context context;
@@ -46,6 +46,9 @@ public class LeagueViewActivity extends AppCompatActivity {
         addOnClickListeners();
     }
 
+    /**
+     * Initializes all of the View references
+     */
     private void initializeViews() {
         firstTeamItem = findViewById(R.id.first_team_item);
         firstTeamName = (TextView) findViewById(R.id.first_team_list_name);
@@ -60,6 +63,9 @@ public class LeagueViewActivity extends AppCompatActivity {
         gamesButton = (Button) findViewById(R.id.league_view_games_button);
     }
 
+    /**
+     * Populates the Views with the League information passed to the Activity
+     */
     private void populateViews() {
         Team first = league.firstTeam();
         Team second = league.secondTeam();
@@ -76,6 +82,9 @@ public class LeagueViewActivity extends AppCompatActivity {
 
     }
 
+    /**
+     * Adds the listeners for the Teams and Button to open up the respective Activity
+     */
     private void addOnClickListeners() {
         firstTeamItem.setOnClickListener(new View.OnClickListener() {
             @Override

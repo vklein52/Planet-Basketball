@@ -22,7 +22,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import java.util.ArrayList;
 import java.util.List;
 
-import edu.illinois.finalproject.AlertDialogFactory;
+import edu.illinois.finalproject.Activities.AlertDialogFactory;
 import edu.illinois.finalproject.R;
 import edu.illinois.finalproject.SimulationFiles.Draft;
 import edu.illinois.finalproject.SimulationFiles.OnlineUser;

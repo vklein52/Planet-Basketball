@@ -3,7 +3,6 @@ package edu.illinois.finalproject.SimulationFiles;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -12,32 +11,25 @@ import java.util.List;
 
 public class Team implements Parcelable {
 
-    //Name will be some identifier of the user
     private String name;
     private List<Player> players;
     private int wins;
 
+    /**
+     * Default constructor required for Firebase compatibility
+     */
     public Team() {
-        this(StringGenerator.genRandomString(10));
+
     }
 
-    public Team(String name) {
-        this.name = name;
-        populatePlayers();
-        wins = 0;
-    }
-
+    /**
+     * @param name    The name of this team
+     * @param players The players of this team
+     */
     public Team(String name, List<Player> players) {
         this.name = name;
         this.players = players;
         wins = 0;
-    }
-
-    private void populatePlayers() {
-        players = new ArrayList<>();
-        for (int i = 0; i < 13; i++) {
-            players.add(new Player());
-        }
     }
 
     public String getName() {
@@ -64,10 +56,16 @@ public class Team implements Parcelable {
         this.wins = wins;
     }
 
+    /**
+     * @return The overall rating of this team, calculated as the average of its offensive and defensive rating
+     */
     public int calculateOverall() {
         return (int) (offensiveRating() + defensiveRating()) / 2;
     }
 
+    /**
+     * @return The offensive rating of this team, calculated as the average of its players' offensive ratings
+     */
     public double offensiveRating() {
         double sum = 0.0;
         for (Player player : players) {
@@ -76,6 +74,9 @@ public class Team implements Parcelable {
         return sum / players.size();
     }
 
+    /**
+     * @return The defensive rating of this team, calculated as the average of its players' defensive ratings
+     */
     public double defensiveRating() {
         double sum = 0.0;
         for (Player player : players) {
@@ -84,6 +85,7 @@ public class Team implements Parcelable {
         return sum / players.size();
     }
 
+    //Below is generic implementation of Parcelable
     @Override
     public int describeContents() {
         return 0;

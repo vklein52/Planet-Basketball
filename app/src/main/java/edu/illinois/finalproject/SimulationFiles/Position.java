@@ -9,6 +9,10 @@ import java.util.Random;
 public enum Position {
     POINT_GUARD, SHOOTING_GUARD, SMALL_FORWARD, POWER_FORWARD, CENTER;
 
+    /**
+     * @param position The position to represent as a String
+     * @return A String representation of the position
+     */
     public static String asString(Position position) {
         switch (position) {
             case POINT_GUARD:
@@ -26,6 +30,10 @@ public enum Position {
         }
     }
 
+    /**
+     * @param position The position to represent as an abbreviated String
+     * @return An abbreviated String representation of the position
+     */
     public static String asAbbreviatedString(Position position) {
         switch (position) {
             case POINT_GUARD:
@@ -43,23 +51,9 @@ public enum Position {
         }
     }
 
-    public static int asInt(Position position) {
-        switch (position) {
-            case POINT_GUARD:
-                return 1;
-            case SHOOTING_GUARD:
-                return 2;
-            case SMALL_FORWARD:
-                return 3;
-            case POWER_FORWARD:
-                return 4;
-            case CENTER:
-                return 5;
-            default:
-                return 0;
-        }
-    }
-
+    /**
+     * @return A random position
+     */
     public static Position getRandomPosition() {
         Random random = new Random();
         int pos = random.nextInt(5);

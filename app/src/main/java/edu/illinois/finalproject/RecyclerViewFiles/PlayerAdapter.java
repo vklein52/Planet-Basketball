@@ -27,9 +27,9 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
-import edu.illinois.finalproject.AlertDialogFactory;
+import edu.illinois.finalproject.Activities.AlertDialogFactory;
+import edu.illinois.finalproject.Activities.PlayerDetailActivity;
 import edu.illinois.finalproject.MenuFiles.PlayerComparator;
-import edu.illinois.finalproject.PlayerDetailActivity;
 import edu.illinois.finalproject.R;
 import edu.illinois.finalproject.SimulationFiles.Draft;
 import edu.illinois.finalproject.SimulationFiles.Player;

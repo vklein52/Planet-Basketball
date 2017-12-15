@@ -1,4 +1,4 @@
-package edu.illinois.finalproject;
+package edu.illinois.finalproject.Activities;
 
 import android.content.Context;
 import android.content.Intent;
@@ -20,6 +20,7 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import edu.illinois.finalproject.R;
 import edu.illinois.finalproject.RecyclerViewFiles.LeagueListActivity;
 import edu.illinois.finalproject.SimulationFiles.User;
 
@@ -84,6 +85,14 @@ public class EmailAuthActivity extends AppCompatActivity implements View.OnClick
         }
     }
 
+    //Below code taken and modified from the Firebase base project
+
+    /**
+     * Creates an account in the FirebaseAuth and then uploads the relevant information to the Database
+     *
+     * @param email    The email of the account
+     * @param password The password of the account
+     */
     private void createAccount(String email, String password) {
         mAuth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
@@ -113,6 +122,12 @@ public class EmailAuthActivity extends AppCompatActivity implements View.OnClick
                 });
     }
 
+    /**
+     * Signs in a user with the given email and password
+     *
+     * @param email    The email to sign in
+     * @param password The password to sign in
+     */
     private void signIn(String email, String password) {
         Log.d(TAG, "signIn:" + email);
         if (!validateForm()) {
@@ -138,10 +153,19 @@ public class EmailAuthActivity extends AppCompatActivity implements View.OnClick
                 });
     }
 
+    /**
+     * Signs out a user - for compatibility reasons, not implemented, but could be useful in the
+     * future
+     */
     private void signOut() {
         mAuth.signOut();
     }
 
+    /**
+     * Checks whether the email and password entered are valid inputs
+     *
+     * @return A boolean of whether the password and email are valid inputs
+     */
     private boolean validateForm() {
         boolean valid = true;
 
@@ -164,8 +188,6 @@ public class EmailAuthActivity extends AppCompatActivity implements View.OnClick
         return valid;
     }
 
-    //TODO 1: Improve the layout of AuthActivity
-    //TODO 2: Disable back button
     @Override
     public void onClick(View v) {
         int i = v.getId();

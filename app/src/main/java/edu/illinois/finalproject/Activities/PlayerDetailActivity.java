@@ -1,4 +1,4 @@
-package edu.illinois.finalproject;
+package edu.illinois.finalproject.Activities;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -13,6 +13,7 @@ import com.google.firebase.storage.StorageReference;
 
 import java.util.Map;
 
+import edu.illinois.finalproject.R;
 import edu.illinois.finalproject.SimulationFiles.Player;
 import edu.illinois.finalproject.SimulationFiles.Position;
 
@@ -22,7 +23,6 @@ public class PlayerDetailActivity extends AppCompatActivity {
     public static final String IS_DRAFT_LAYOUT = "IS_DRAFT_LAYOUT";
 
     private Player player;
-    private boolean isDraftLayout;
 
     private ImageView faceView;
     private TextView heightView;
@@ -40,12 +40,13 @@ public class PlayerDetailActivity extends AppCompatActivity {
         player = intent.getParcelableExtra(PLAYER);
         setTitle(player.getName());
 
-        isDraftLayout = intent.getBooleanExtra(IS_DRAFT_LAYOUT, false);
-
         initializeViews();
         populateViews();
     }
 
+    /**
+     * Initializes all of the View references
+     */
     private void initializeViews() {
         faceView = (ImageView) findViewById(R.id.player_detail_face);
         heightView = (TextView) findViewById(R.id.player_detail_height);
@@ -55,8 +56,10 @@ public class PlayerDetailActivity extends AppCompatActivity {
         secondHalfAttributesView = (TextView) findViewById(R.id.player_detail_second_attributes);
     }
 
+    /**
+     * Populates the Views with the Player information passed to the Activity
+     */
     private void populateViews() {
-        //Todo Faces stuff here and height stuff for the player
         StorageReference faceRef = FirebaseStorage.getInstance().getReference().child("faces/" + player.getKey());
         Glide.with(this)
                 .using(new FirebaseImageLoader())
@@ -72,6 +75,9 @@ public class PlayerDetailActivity extends AppCompatActivity {
         populateAttributeViews();
     }
 
+    /**
+     * Populates the two respective Attribute TextViews
+     */
     private void populateAttributeViews() {
         Map<String, Double> attributes = player.getAttributes();
         int index = attributes.size() / 2;

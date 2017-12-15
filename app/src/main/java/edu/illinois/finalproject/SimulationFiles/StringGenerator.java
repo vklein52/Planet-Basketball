@@ -33,6 +33,10 @@ public class StringGenerator {
         return stringBuilder.toString();
     }
 
+    /**
+     * @return A random String of length two conforming to the rules of faces in storage - first
+     * character is a capital letter, second character is any alphanumeric character
+     */
     public static String genRandomFaceKey() {
         return LETTERS.charAt(RandomUtils.randInt(26, LETTERS.length() - 1)) + "" + genRandomString(1);
     }

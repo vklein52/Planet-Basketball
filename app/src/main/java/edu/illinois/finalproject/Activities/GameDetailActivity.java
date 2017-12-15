@@ -1,9 +1,10 @@
-package edu.illinois.finalproject;
+package edu.illinois.finalproject.Activities;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.TextView;
 
+import edu.illinois.finalproject.R;
 import edu.illinois.finalproject.SimulationFiles.Game;
 
 public class GameDetailActivity extends AppCompatActivity {
@@ -27,6 +28,9 @@ public class GameDetailActivity extends AppCompatActivity {
         populateViews();
     }
 
+    /**
+     * Initializes all of the View references
+     */
     private void initializeViews() {
         awayName = (TextView) findViewById(R.id.game_detail_away_team_name);
         awayScore = (TextView) findViewById(R.id.game_detail_away_team_score);
@@ -34,6 +38,9 @@ public class GameDetailActivity extends AppCompatActivity {
         homeScore = (TextView) findViewById(R.id.game_detail_home_team_score);
     }
 
+    /**
+     * Populates the Views with the Game information passed to the Activity
+     */
     private void populateViews() {
         awayName.setText(game.getAwayName());
         String aScore = "" + game.getAwayScore();

@@ -21,11 +21,13 @@ import edu.illinois.finalproject.R;
  */
 
 public class Player implements Comparable<Player>, Parcelable {
+    //Hard coded arrays for attribute names
     private static final String[] attributeNames = {"speed", "layup", "inside", "close", "midrange", "threes", "dunks", "passing", "dribbling", "defending", "steal", "block", "rebounding", "awareness",
             "strength", "vertical", "size", "stamina", "potential"};
     private static final String[] offensiveStats = {"speed", "layup", "inside", "close", "midrange", "threes", "dunks", "passing", "dribbling", "awareness", "vertical", "stamina"};
     private static final String[] defensiveStats = {"speed", "defending", "steal", "block", "rebounding", "awareness", "strength", "vertical", "size", "stamina"};
 
+    //Values for positional distributions of heights
     private static final double PG_MEAN_HEIGHT = 74;
     private static final double PG_STD_DEV_HEIGHT = 1;
     private static final double SG_MEAN_HEIGHT = 78;
@@ -37,9 +39,11 @@ public class Player implements Comparable<Player>, Parcelable {
     private static final double C_MEAN_HEIGHT = 84;
     private static final double C_STD_DEV_HEIGHT = 1;
 
+    //Age bounds
     private static final int MIN_AGE = 18;
     private static final int MAX_AGE = 33;
 
+    //Archetypical and Positional boosts
     private static Map<String, Double> offensiveArchetypeBoosts;
     private static Map<String, Double> defensiveArchetypeBoosts;
     private static Map<String, Double> athleticArchetypeBoosts;
@@ -59,10 +63,16 @@ public class Player implements Comparable<Player>, Parcelable {
     private Position position;
     private String key;
 
+    /**
+     * Default constructor required for Firebase compatibility
+     */
     public Player() {
 
     }
 
+    /**
+     * @param position The position of the player to create
+     */
     public Player(Position position) {
         this.position = position;
         populateAttributes();
@@ -119,12 +129,18 @@ public class Player implements Comparable<Player>, Parcelable {
         this.key = key;
     }
 
+    /**
+     * @return A string representing this player's height as a displayable value
+     */
     public String displayHeight() {
         //For rounding
         int heightInt = (int) (height + 0.5);
         return (heightInt / 12) + "'" + (heightInt % 12) + "''";
     }
 
+    /**
+     * @return This players offensive rating, calculated as the average of his offensive stats
+     */
     public double offensiveRating() {
         double ovr = 0.0;
         for (String offensiveStat : offensiveStats) {
@@ -133,6 +149,9 @@ public class Player implements Comparable<Player>, Parcelable {
         return formatStat(ovr / offensiveStats.length);
     }
 
+    /**
+     * @return This players defensive rating, calculated as the average of his defensive stats
+     */
     public double defensiveRating() {
         double ovr = 0.0;
         for (String defensiveStat : defensiveStats) {
@@ -141,10 +160,18 @@ public class Player implements Comparable<Player>, Parcelable {
         return formatStat(ovr / defensiveStats.length);
     }
 
+    /**
+     * @return This players overall rating, calculated as the average of his offensive and defensive ratings
+     */
     public int overall() {
         return (int) (offensiveRating() + defensiveRating() + 0.5) / 2;
     }
 
+    /**
+     * Generates a random name for this player
+     *
+     * @return A random name
+     */
     public String genName() {
         return RandomUtils.randomElementOf(firstNames) + " " + RandomUtils.randomElementOf(lastNames);
     }
@@ -217,6 +244,12 @@ public class Player implements Comparable<Player>, Parcelable {
         }
     }
 
+    /**
+     * Formats stats so that they lay between 0.0 and 100.0, inclusive
+     *
+     * @param val The value to format
+     * @return The decimal precision number between 0.0 and 100.0 inclusive closest to val
+     */
     private double formatStat(double val) {
         if (val < 0.0) {
             return 0.0;
@@ -399,12 +432,17 @@ public class Player implements Comparable<Player>, Parcelable {
         centerBoosts.put("stamina", 0.0);
         centerBoosts.put("potential", 0.0);
     }
-    
+
+    /**
+     * @param o Compares two Players
+     * @return True if the first overall is higher than o's
+     */
     @Override
     public int compareTo(@NonNull Player o) {
         return overall() - o.overall();
     }
 
+    //Generic Equals implementation
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -436,6 +474,12 @@ public class Player implements Comparable<Player>, Parcelable {
         return result;
     }
 
+    /**
+     * Ugly helper function called to read two text files that contain first and last names, and
+     * populate lists with their contents
+     *
+     * @param context The context to retrieve the text file resources
+     */
     public static void initializeNames(Context context) {
         firstNames = new ArrayList<>();
         BufferedReader br;
@@ -482,6 +526,7 @@ public class Player implements Comparable<Player>, Parcelable {
         }
     }
 
+    //Below is generic Parcelable implementation
     @Override
     public int describeContents() {
         return 0;
