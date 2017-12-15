@@ -20,8 +20,6 @@ import android.graphics.drawable.shapes.RectShape;
 import android.graphics.drawable.shapes.Shape;
 
 import java.io.ByteArrayOutputStream;
-import java.util.ArrayList;
-import java.util.List;
 
 /*
  * Created by uytre_000 on 8/8/2016.
@@ -39,7 +37,7 @@ public class Faces {
             Color.parseColor("#a0940a"), Color.parseColor("#000000"), Color.parseColor("#7f6500")};
     private static int[] weirdHairColors = {Color.MAGENTA, Color.BLUE, Color.GREEN, Color.DKGRAY, Color.RED, Color.CYAN};
 
-    public static List<Byte> makeFace(int height, int width) {
+    public static byte[] makeFace(int height, int width) {
 
         int mult = RandomUtils.randInt(10, 10);
         ShapeDrawable hair = new ShapeDrawable(new OvalShape());
@@ -181,31 +179,10 @@ public class Faces {
             double mustacheMult = RandomUtils.randInt(1000, 3500) / 1000.0;
             l.setLayerInset(mustacheIndex, (int) (width * mustacheMult / (mult)), width * 7 / mult - width / 10, (int) (width * mustacheMult / (mult)), width - width * 7 / mult);
         }
-        return byteArrayToList(bitmapToByteArray(drawableToBitmap(l)));
+        return bitmapToByteArray(drawableToBitmap(l));
     }
 
-    private static List<Byte> byteArrayToList(byte[] bytes) {
-        ArrayList<Byte> nBytes = new ArrayList<>();
-        for (byte b : bytes) {
-            nBytes.add(b);
-        }
-        return nBytes;
-    }
-
-    public static Drawable byteListToDrawable(List<Byte> bytes, Context context) {
-        byte[] nBytes = byteListToArray(bytes);
-        return byteArrayToDrawable(nBytes, context);
-    }
-
-    private static byte[] byteListToArray(List<Byte> bytes) {
-        byte[] nBytes = new byte[bytes.size()];
-        for (int i = 0; i < bytes.size(); i++) {
-            nBytes[i] = bytes.get(i);
-        }
-        return nBytes;
-    }
-
-    private static Drawable byteArrayToDrawable(byte[] bytes, Context context) {
+    public static Drawable byteArrayToDrawable(byte[] bytes, Context context) {
         Bitmap bitmap = byteArrayToBitmap(bytes);
         return bitmapToDrawable(bitmap, context);
     }
@@ -225,7 +202,7 @@ public class Faces {
     }
 
     private static Bitmap drawableToBitmap(Drawable drawable) {
-        Bitmap bitmap = null;
+        Bitmap bitmap;
 
         if (drawable instanceof BitmapDrawable) {
             BitmapDrawable bitmapDrawable = (BitmapDrawable) drawable;

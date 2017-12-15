@@ -33,6 +33,10 @@ public class StringGenerator {
         return stringBuilder.toString();
     }
 
+    public static String genRandomFaceKey() {
+        return LETTERS.charAt(RandomUtils.randInt(26, LETTERS.length() - 1)) + "" + genRandomString(1);
+    }
+
     /**
      * @param numStrings   The number of Strings to be generated
      * @param stringLength The length of the Strings to be generated

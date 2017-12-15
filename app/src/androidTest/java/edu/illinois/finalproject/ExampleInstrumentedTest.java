@@ -10,6 +10,8 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -17,6 +19,7 @@ import org.junit.runner.RunWith;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 
+import edu.illinois.finalproject.SimulationFiles.Faces;
 import edu.illinois.finalproject.SimulationFiles.League;
 import edu.illinois.finalproject.SimulationFiles.User;
 
@@ -90,5 +93,29 @@ public class ExampleInstrumentedTest {
 
     }
 
+    @Test
+    public void uploadFaces() throws Exception {
+        final CountDownLatch signal = new CountDownLatch(20);
+        uploadRegion(11, 12);
+        signal.await(45, TimeUnit.SECONDS);
+        for (int i = 12; i < 26; i += 2) {
+            final CountDownLatch writeSignal = new CountDownLatch(20);
+            uploadRegion(i, i + 2);
+            writeSignal.await(45, TimeUnit.SECONDS);
+        }
+    }
 
+    public void uploadRegion(int low, int high) {
+        String bank = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890";
+        for (int i = low; i < high; i++) {
+            for (int j = 0; j < bank.length(); j++) {
+                String key = bank.charAt(i) + "" + bank.charAt(j);
+                byte[] face = Faces.makeFace(175, 175);
+
+                StorageReference mStorageRef = FirebaseStorage.getInstance().getReference();
+                StorageReference faceRef = mStorageRef.child("faces/" + key);
+                faceRef.putBytes(face);
+            }
+        }
+    }
 }

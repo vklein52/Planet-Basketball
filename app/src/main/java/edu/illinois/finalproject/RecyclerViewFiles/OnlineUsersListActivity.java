@@ -26,6 +26,7 @@ import edu.illinois.finalproject.AlertDialogFactory;
 import edu.illinois.finalproject.R;
 import edu.illinois.finalproject.SimulationFiles.Draft;
 import edu.illinois.finalproject.SimulationFiles.OnlineUser;
+import edu.illinois.finalproject.SimulationFiles.Player;
 import edu.illinois.finalproject.SimulationFiles.StringGenerator;
 import edu.illinois.finalproject.SimulationFiles.User;
 
@@ -136,6 +137,7 @@ public class OnlineUsersListActivity extends AppCompatActivity {
 
                         final String draftKey = StringGenerator.genRandomString(15);
                         //No null pointer for email because app requires email authentication
+                        Player.initializeNames(context);
                         Draft draft = new Draft(fbUser.getEmail(), fbUser.getUid(), otherEmail, otherUid, draftKey);
 
                         DatabaseReference draftRef = FirebaseDatabase.getInstance().getReference("Drafts").child(draftKey);

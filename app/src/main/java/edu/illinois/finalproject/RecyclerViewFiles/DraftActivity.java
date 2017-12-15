@@ -58,7 +58,12 @@ public class DraftActivity extends AppCompatActivity implements SearchView.OnQue
         initializeRecyclerView();
     }
 
-    private void downloadDraft() {
+    /**
+     * Sets up the callback for whenever the draft is updated, including the initial download.
+     * Also handles starting the creation of the league if the draft is over, and finishing the
+     * draft activity if the draft no longer exists.
+     */
+    private void handleDraftChanges() {
         final FirebaseDatabase database = FirebaseDatabase.getInstance();
 
         DatabaseReference myRef = database.getReference("Drafts").child(draftKey);
@@ -83,6 +88,12 @@ public class DraftActivity extends AppCompatActivity implements SearchView.OnQue
         });
     }
 
+    /**
+     * Takes a draft and converts it to a League format, which indludes simming games, and then
+     * uploads the League to firebase and adds the leagueId to the respective users' leagueId lists
+     *
+     * @param draft The draft from which to create the league
+     */
     private void createLeague(Draft draft) {
         League league = new League(draft);
         String leagueId = league.getId();
@@ -97,9 +108,14 @@ public class DraftActivity extends AppCompatActivity implements SearchView.OnQue
         draftRef.removeValue();
     }
 
+    /**
+     * Adds the leagueId to the respective users' leagueId lists
+     *
+     * @param leagueId The leagueId to add
+     */
     private void updateUserLeagueIds(final String leagueId) {
         final FirebaseDatabase database = FirebaseDatabase.getInstance();
-        //Todo: null pathstring
+
         final DatabaseReference firstRef = database.getReference("Users").child(draft.getFirstTeamId());
         firstRef.addValueEventListener(new ValueEventListener() {
             @Override
@@ -137,12 +153,16 @@ public class DraftActivity extends AppCompatActivity implements SearchView.OnQue
         checkSortType();
     }
 
+    /**
+     * Initializes the RecyclerView by making the initial Draft download, creating the PlayerAdapter,
+     * and populating the RecyclerView with it.
+     */
     private void initializeRecyclerView() {
         PlayerComparator.setSortType(getPreferencesSortType());
 
         RecyclerView recyclerView = (RecyclerView) findViewById(R.id.draft_list_recycler_view);
 
-        downloadDraft();
+        handleDraftChanges();
 
         playerAdapter = new PlayerAdapter(draftablePlayers, new PlayerComparator(), true, this);
         recyclerView.setAdapter(playerAdapter);
@@ -152,6 +172,9 @@ public class DraftActivity extends AppCompatActivity implements SearchView.OnQue
         recyclerView.setHasFixedSize(true);
     }
 
+    /**
+     * Helper method to check if the user has changed the SortType for the comparator
+     */
     private void checkSortType() {
         SortType temp = getPreferencesSortType();
         SortType sortType = PlayerComparator.getSortType();

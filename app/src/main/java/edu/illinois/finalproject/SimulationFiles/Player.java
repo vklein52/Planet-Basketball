@@ -1,45 +1,56 @@
 package edu.illinois.finalproject.SimulationFiles;
 
+import android.content.Context;
+import android.graphics.drawable.Drawable;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.support.annotation.NonNull;
 
+import java.io.BufferedReader;
+import java.io.InputStream;
+import java.io.StringReader;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
-import java.util.Random;
+
+import edu.illinois.finalproject.R;
 
 /**
  * Created by vijay on 11/28/2017.
  */
 
 public class Player implements Comparable<Player>, Parcelable {
-    //Todo: Wingspan
-    //Will be put into JSON in final app, but opted for convenience as this is only tests
     private static String[] attributeNames = {"speed", "layup", "inside", "close", "midrange", "threes", "dunks", "passing", "dribbling", "defending", "steal", "block", "rebounding", "awareness",
             "strength", "vertical", "size", "stamina", "potential"};
     private static final double MEAN_HEIGHT = 79;
     private static final double STD_DEV_HEIGHT = 3.5;
+    private static final int MIN_AGE = 18;
+    private static final int MAX_AGE = 33;
+
+    private static List<String> firstNames;
+    private static List<String> lastNames;
 
     private Map<String, Double> attributes;
     private String name;
     private int age;
     private double height;
     private Position position;
-//    private List<Byte> face;
-
-    //public Player(){};
+    private String key;
+    private byte[] face;
 
     public Player() {
-        Random random = new Random();
-        populateAttributes();
-        name = StringGenerator.genRandomString(6);
-        age = 17 + random.nextInt(5);
-        height = RandomUtils.randGaussian(MEAN_HEIGHT, STD_DEV_HEIGHT);
-        position = Position.getRandomPosition();
 
-//        int dim = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 50, Resources.getSystem().getDisplayMetrics());
-//        face = Faces.makeFace(dim, dim);
+    }
+
+    public Player(Position position) {
+        populateAttributes();
+        name = genName();
+        age = RandomUtils.randInt(MIN_AGE, MAX_AGE);
+        height = RandomUtils.randGaussian(MEAN_HEIGHT, STD_DEV_HEIGHT);
+        this.position = position;
+        key = StringGenerator.genRandomFaceKey();
     }
 
     private void populateAttributes() {
@@ -89,6 +100,26 @@ public class Player implements Comparable<Player>, Parcelable {
         this.height = height;
     }
 
+    public String getKey() {
+        return key;
+    }
+
+    public void setKey(String key) {
+        this.key = key;
+    }
+
+    public Drawable faceAsDrawable(Context context) {
+        return Faces.byteArrayToDrawable(face, context);
+    }
+
+    public byte[] face() {
+        return face;
+    }
+
+    public void setFace(byte[] face) {
+        this.face = face;
+    }
+
     public String displayHeight() {
         //For rounding
         int heightInt = (int) (height + 0.5);
@@ -102,6 +133,10 @@ public class Player implements Comparable<Player>, Parcelable {
             ovr += d;
         }
         return ((int) ovr) / attributeNames.length;
+    }
+
+    public String genName() {
+        return RandomUtils.randomElementOf(firstNames) + " " + RandomUtils.randomElementOf(lastNames);
     }
 
 //    public List<Byte> getFace() {
@@ -122,6 +157,83 @@ public class Player implements Comparable<Player>, Parcelable {
     }
 
     @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Player player = (Player) o;
+
+        if (age != player.age) return false;
+        if (Double.compare(player.height, height) != 0) return false;
+        if (attributes != null ? !attributes.equals(player.attributes) : player.attributes != null)
+            return false;
+        if (name != null ? !name.equals(player.name) : player.name != null) return false;
+        if (position != player.position) return false;
+        return key != null ? key.equals(player.key) : player.key == null;
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result;
+        long temp;
+        result = attributes != null ? attributes.hashCode() : 0;
+        result = 31 * result + (name != null ? name.hashCode() : 0);
+        result = 31 * result + age;
+        temp = Double.doubleToLongBits(height);
+        result = 31 * result + (int) (temp ^ (temp >>> 32));
+        result = 31 * result + (position != null ? position.hashCode() : 0);
+        result = 31 * result + (key != null ? key.hashCode() : 0);
+        return result;
+    }
+
+    public static void initializeNames(Context context) {
+        firstNames = new ArrayList<>();
+        BufferedReader br;
+        String result;
+        try {
+            InputStream stream = context.getResources().openRawResource(R.raw.first_names);
+            byte[] bytes = new byte[stream.available()];
+            stream.read(bytes);
+            result = new String(bytes);
+
+            br = new BufferedReader(new StringReader(result));
+            String temp;
+
+            while ((temp = br.readLine()) != null) {
+                String name = temp.substring(0, temp.indexOf(' '));
+                name = name.substring(0, 1) + name.substring(1).toLowerCase();
+                firstNames.add(name);
+            }
+            br.close();
+        } catch (Exception e) {
+            firstNames.add("Smith");
+            firstNames.add("Jones");
+        }
+
+        lastNames = new ArrayList<>();
+        try {
+            InputStream stream = context.getResources().openRawResource(R.raw.last_names);
+            byte[] bytes = new byte[stream.available()];
+            stream.read(bytes);
+            result = new String(bytes);
+
+            br = new BufferedReader(new StringReader(result));
+            String temp;
+
+            while ((temp = br.readLine()) != null) {
+                String name = temp.substring(0, temp.indexOf(' '));
+                name = name.substring(0, 1) + name.substring(1).toLowerCase();
+                lastNames.add(name);
+            }
+            br.close();
+        } catch (Exception e) {
+            lastNames.add("Smith");
+            lastNames.add("Jones");
+        }
+    }
+
+    @Override
     public int describeContents() {
         return 0;
     }
@@ -137,6 +249,8 @@ public class Player implements Comparable<Player>, Parcelable {
         dest.writeInt(this.age);
         dest.writeDouble(this.height);
         dest.writeInt(this.position == null ? -1 : this.position.ordinal());
+        dest.writeString(this.key);
+        dest.writeByteArray(this.face);
     }
 
     protected Player(Parcel in) {
@@ -152,6 +266,8 @@ public class Player implements Comparable<Player>, Parcelable {
         this.height = in.readDouble();
         int tmpPosition = in.readInt();
         this.position = tmpPosition == -1 ? null : Position.values()[tmpPosition];
+        this.key = in.readString();
+        this.face = in.createByteArray();
     }
 
     public static final Creator<Player> CREATOR = new Creator<Player>() {
@@ -165,33 +281,4 @@ public class Player implements Comparable<Player>, Parcelable {
             return new Player[size];
         }
     };
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        Player player = (Player) o;
-
-        if (age != player.age) return false;
-        if (Double.compare(player.height, height) != 0) return false;
-        if (attributes != null ? !attributes.equals(player.attributes) : player.attributes != null)
-            return false;
-        if (name != null ? !name.equals(player.name) : player.name != null) return false;
-        return position == player.position;
-
-    }
-
-    @Override
-    public int hashCode() {
-        int result;
-        long temp;
-        result = attributes != null ? attributes.hashCode() : 0;
-        result = 31 * result + (name != null ? name.hashCode() : 0);
-        result = 31 * result + age;
-        temp = Double.doubleToLongBits(height);
-        result = 31 * result + (int) (temp ^ (temp >>> 32));
-        result = 31 * result + (position != null ? position.hashCode() : 0);
-        return result;
-    }
 }

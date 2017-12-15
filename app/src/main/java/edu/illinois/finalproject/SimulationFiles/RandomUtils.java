@@ -1,5 +1,6 @@
 package edu.illinois.finalproject.SimulationFiles;
 
+import java.util.List;
 import java.util.Random;
 
 /**
@@ -26,4 +27,8 @@ public class RandomUtils {
         return temp;
     }
 
+    public static <T> T randomElementOf(List<T> list) {
+        int length = list.size();
+        return list.get(randInt(0, length - 1));
+    }
 }

@@ -116,7 +116,7 @@ public class Draft {
     private void genPlayers() {
         availablePlayers = new ArrayList<>();
         for (int i = 0; i < DRAFT_SIZE; i++) {
-            availablePlayers.add(new Player());
+            availablePlayers.add(new Player(Position.getRandomPosition()));
         }
     }
 

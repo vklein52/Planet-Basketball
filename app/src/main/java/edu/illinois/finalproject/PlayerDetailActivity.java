@@ -52,6 +52,7 @@ public class PlayerDetailActivity extends AppCompatActivity {
 
     private void populateViews() {
         //Todo Faces stuff here and height stuff for the player
+        faceView.setImageDrawable(player.faceAsDrawable(this));
         heightView.setText(player.displayHeight());
 
         String ageText = "Age: " + player.getAge();
