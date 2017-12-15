@@ -13,7 +13,7 @@
         android:orientation="horizontal">
 
         <TextView
-            android:id="@+id/game_list_item_home_team_name"
+            android:id="@+id/game_list_item_away_team_name"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
@@ -22,12 +22,12 @@
             android:layout_marginRight="8dp"
             android:layout_marginTop="8dp"
             android:layout_weight="3"
-            android:text="Home Team"
+            android:text="Away Team"
             android:textColor="@color/textColor"
             android:textSize="20sp" />
 
         <TextView
-            android:id="@+id/game_list_item_home_team_score"
+            android:id="@+id/game_list_item_away_team_score"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
@@ -47,7 +47,7 @@
         android:orientation="horizontal">
 
         <TextView
-            android:id="@+id/game_list_item_away_team_name"
+            android:id="@+id/game_list_item_home_team_name"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
@@ -56,12 +56,12 @@
             android:layout_marginRight="8dp"
             android:layout_marginTop="8dp"
             android:layout_weight="3"
-            android:text="Away Team"
+            android:text="Home Team"
             android:textColor="@color/textColor"
             android:textSize="20sp" />
 
         <TextView
-            android:id="@+id/game_list_item_away_team_score"
+            android:id="@+id/game_list_item_home_team_score"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
