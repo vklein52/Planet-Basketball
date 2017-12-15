@@ -46,10 +46,15 @@ public class PlayerAdapter extends RecyclerView.Adapter<PlayerAdapter.PlayerView
     private List<Player> playersCopy;
     private Context context;
     private boolean isDraftLayout;
-
-    //Todo 3: Create the Comparators!
     private Comparator comparator;
 
+    /**
+     * @param players       The players that will populate this adapter
+     * @param comparator    The comparator for sorting the Players
+     * @param isDraftLayout A boolean indicating whether this adapter should use the additional draft
+     *                      capabilities
+     * @param context       The context under which this adapter exists
+     */
     public PlayerAdapter(List<Player> players, PlayerComparator comparator, boolean isDraftLayout, Context context) {
         this.players = players;
         playersCopy = new ArrayList<>();
@@ -90,11 +95,18 @@ public class PlayerAdapter extends RecyclerView.Adapter<PlayerAdapter.PlayerView
         notifyDataSetChanged();
     }
 
+    /**
+     * Sorts the players according to the current settings of the Comparator
+     */
     void sortData() {
         Collections.sort(players, comparator);
         this.notifyDataSetChanged();
     }
 
+    /**
+     * Filters the adapter for a given search query
+     * @param text  The search query text
+     */
     void filter(String text) {
         //Below code found and then edited from
         //https://stackoverflow.com/questions/30398247/how-to-filter-a-recyclerview-with-a-searchview

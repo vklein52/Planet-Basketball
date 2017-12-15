@@ -55,6 +55,67 @@ public class OnlineUsersListActivity extends AppCompatActivity {
         handleInvitations();
     }
 
+    /**
+     * Sets up the OnlineUsers callback to update when someone comes online or not, as well as
+     * setting the Draft callbacks for both creating the Draft, and deleting it if someone disconnects
+     * before it completes
+     */
+    @Override
+    protected void onStart() {
+        super.onStart();
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        if (user != null && user.getEmail() != null) {
+            OnlineUser onlineUser = new OnlineUser(user.getEmail(), user.getUid());
+            DatabaseReference myRef = FirebaseDatabase.getInstance().getReference("OnlineUsers").child(user.getUid());
+            myRef.onDisconnect().removeValue();
+            myRef.setValue(onlineUser);
+
+            DatabaseReference draftRef = FirebaseDatabase.getInstance().getReference("Users").child(user.getUid()).child("Drafts");
+            draftRef.onDisconnect().removeValue();
+            draftRef.addChildEventListener(new ChildEventListener() {
+                @Override
+                public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+                    Intent intent = new Intent(context, DraftActivity.class);
+                    intent.putExtra(DraftActivity.DRAFT_KEY, dataSnapshot.getKey());
+                    startActivity(intent);
+                }
+
+                @Override
+                public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+
+                }
+
+                @Override
+                public void onChildRemoved(DataSnapshot dataSnapshot) {
+
+                }
+
+                @Override
+                public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+
+                }
+
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+
+                }
+            });
+        }
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        if (user != null && user.getEmail() != null) {
+            DatabaseReference myRef = FirebaseDatabase.getInstance().getReference("OnlineUsers").child(user.getUid());
+            myRef.removeValue();
+        }
+    }
+
+    /**
+     * Initializes the RecyclerView by setting the OnlineUserAdapter and the LayoutManager
+     */
     private void initializeRecyclerView() {
         RecyclerView recyclerView = (RecyclerView) findViewById(R.id.online_user_list_recycler_view);
 
@@ -66,6 +127,9 @@ public class OnlineUsersListActivity extends AppCompatActivity {
         recyclerView.setHasFixedSize(true);
     }
 
+    /**
+     * Sets up the callback for updating which users are online and looking for a league
+     */
     private void updateOnlineUsers() {
         DatabaseReference myRef = FirebaseDatabase.getInstance().getReference("OnlineUsers");
 
@@ -104,6 +168,10 @@ public class OnlineUsersListActivity extends AppCompatActivity {
         });
     }
 
+    /**
+     * Sets up the callback for when an invitation is received by a user to ask them if they would
+     * like to accept
+     */
     private void handleInvitations() {
         final DatabaseReference invRef = FirebaseDatabase.getInstance().getReference("Users").child(user.getUid()).child(INVITATIONS);
         invRef.addChildEventListener(new ChildEventListener() {
@@ -167,60 +235,4 @@ public class OnlineUsersListActivity extends AppCompatActivity {
             }
         });
     }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-        if (user != null && user.getEmail() != null) {
-            OnlineUser onlineUser = new OnlineUser(user.getEmail(), user.getUid());
-            DatabaseReference myRef = FirebaseDatabase.getInstance().getReference("OnlineUsers").child(user.getUid());
-            myRef.onDisconnect().removeValue();
-            myRef.setValue(onlineUser);
-
-            DatabaseReference draftRef = FirebaseDatabase.getInstance().getReference("Users").child(user.getUid()).child("Drafts");
-            draftRef.onDisconnect().removeValue();
-            draftRef.addChildEventListener(new ChildEventListener() {
-                @Override
-                public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-                    Intent intent = new Intent(context, DraftActivity.class);
-                    intent.putExtra(DraftActivity.DRAFT_KEY, dataSnapshot.getKey());
-                    startActivity(intent);
-                }
-
-                @Override
-                public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-
-                }
-
-                @Override
-                public void onChildRemoved(DataSnapshot dataSnapshot) {
-
-                }
-
-                @Override
-                public void onChildMoved(DataSnapshot dataSnapshot, String s) {
-
-                }
-
-                @Override
-                public void onCancelled(DatabaseError databaseError) {
-
-                }
-            });
-        }
-    }
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-        if (user != null && user.getEmail() != null) {
-            DatabaseReference myRef = FirebaseDatabase.getInstance().getReference("OnlineUsers").child(user.getUid());
-            myRef.removeValue();
-        }
-        //Todo: ORIENTATION CHANGES YA BOZO
-    }
-
-
 }

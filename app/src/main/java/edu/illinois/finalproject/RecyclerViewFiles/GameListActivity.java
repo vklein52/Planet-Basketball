@@ -27,6 +27,9 @@ public class GameListActivity extends AppCompatActivity {
 
     }
 
+    /**
+     * Initializes the RecyclerView to contain the data held in the league's games
+     */
     private void initializeRecyclerView() {
         RecyclerView recyclerView = (RecyclerView) findViewById(R.id.game_list_recycler_view);
 

@@ -23,6 +23,10 @@ public class GameAdapter extends RecyclerView.Adapter<GameAdapter.GameViewHolder
     private List<Game> games;
     private Context context;
 
+    /**
+     * @param games   The games for this adapter
+     * @param context The context this adapter exists within
+     */
     public GameAdapter(List<Game> games, Context context) {
         this.games = games;
         this.context = context;

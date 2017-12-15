@@ -46,6 +46,10 @@ public class PlayerListViewActivity extends AppCompatActivity implements SearchV
         checkSortType();
     }
 
+    /**
+     * Initializes the RecyclerView by setting the SortType, populating the RecyclerView with a
+     * PlayerAdapter, and setting the LayoutManager
+     */
     private void initializeRecyclerView() {
         PlayerComparator.setSortType(getPreferencesSortType());
 
@@ -59,7 +63,9 @@ public class PlayerListViewActivity extends AppCompatActivity implements SearchV
         recyclerView.setHasFixedSize(true);
     }
 
-
+    /**
+     * Helper method to check if the user has changed the SortType for the comparator
+     */
     private void checkSortType() {
         SortType temp = getPreferencesSortType();
         SortType sortType = PlayerComparator.getSortType();

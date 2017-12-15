@@ -50,11 +50,9 @@ public class LeagueListActivity extends AppCompatActivity {
 
 
     /**
-     * Initializes the RecyclerView by setting the SortType, generating strings to populate the
-     * RecyclerView with and then sets the LayoutManager.
+     * Initializes the RecyclerView by setting the LeagueAdapter and setting the LayoutManager
      */
     private void initializeRecyclerView() {
-//        StringComparator.setSortType(getPreferencesSortType());
         RecyclerView recyclerView = (RecyclerView) findViewById(R.id.league_recycler_view);
 
         downloadUser();
@@ -67,6 +65,9 @@ public class LeagueListActivity extends AppCompatActivity {
         recyclerView.setHasFixedSize(true);
     }
 
+    /**
+     * Sets up a callback for updating the league if it changed, as well as the initial download
+     */
     private void downloadLeagues() {
         Log.d(TAG, "Attempt to download league");
         final FirebaseDatabase database = FirebaseDatabase.getInstance();
@@ -77,7 +78,6 @@ public class LeagueListActivity extends AppCompatActivity {
             myRef.addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
-                    //Todo: Consider a change to a map of leagues instead of list
                     League league = dataSnapshot.getValue(League.class);
                     replaceLeague(league);
                     Log.d(TAG, "Downloaded a league");
@@ -94,6 +94,9 @@ public class LeagueListActivity extends AppCompatActivity {
 
     }
 
+    /**
+     * Sets up a callback for updating the user if it changed, as well as the initial download
+     */
     private void downloadUser() {
         FirebaseUser fbUser = FirebaseAuth.getInstance().getCurrentUser();
         if (fbUser != null) {
@@ -124,6 +127,9 @@ public class LeagueListActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Sets up the call back for the Button to create a new League
+     */
     private void setUpButton() {
         createLeagueButton = (Button) findViewById(R.id.create_league_button);
         createLeagueButton.setEnabled(false);
@@ -137,6 +143,12 @@ public class LeagueListActivity extends AppCompatActivity {
         });
     }
 
+    /**
+     * Method intending to add the league if it doesn't exist, and overwrite the old league in the
+     * local list if it does
+     *
+     * @param league
+     */
     private void replaceLeague(League league) {
         String id = league.getId();
         for (int i = 0; i < leagues.size(); i++) {

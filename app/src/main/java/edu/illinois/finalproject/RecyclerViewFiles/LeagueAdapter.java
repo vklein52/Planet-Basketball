@@ -8,9 +8,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 
 import edu.illinois.finalproject.Activities.LeagueViewActivity;
@@ -24,18 +21,15 @@ import edu.illinois.finalproject.SimulationFiles.League;
 public class LeagueAdapter extends RecyclerView.Adapter<LeagueAdapter.LeagueViewHolder> {
 
     private List<League> leagues;
-    private List<League> leaguesCopy;
     private Context context;
 
-    //Todo 3: Create the Comparators!
-    private Comparator comparator;
-
+    /**
+     * @param leagues The leagues this adapter will display
+     * @param context The context this adapter exists within
+     */
     public LeagueAdapter(List<League> leagues, Context context) {
         this.leagues = leagues;
-        leaguesCopy = new ArrayList<>();
-        leaguesCopy.addAll(leagues);
         this.context = context;
-        //sortData();
     }
 
     @Override
@@ -56,28 +50,6 @@ public class LeagueAdapter extends RecyclerView.Adapter<LeagueAdapter.LeagueView
     public int getItemCount() {
         return leagues.size();
     }
-
-    void sortData() {
-        Collections.sort(leagues, comparator);
-        this.notifyDataSetChanged();
-    }
-
-//    void filter(String text) {
-//        //Below code found and then edited from
-//        //https://stackoverflow.com/questions/30398247/how-to-filter-a-recyclerview-with-a-searchview
-//        leagues.clear();
-//        if (text.isEmpty()) {
-//            leagues.addAll(leaguesCopy);
-//        } else {
-//            text = text.toLowerCase();
-//            for (League item : leaguesCopy) {
-//                if (item.get.contains(text)) {
-//                    leagues.add(item);
-//                }
-//            }
-//        }
-//        sortData();
-//    }
 
     class LeagueViewHolder extends RecyclerView.ViewHolder {
         View itemView;
@@ -102,7 +74,7 @@ public class LeagueAdapter extends RecyclerView.Adapter<LeagueAdapter.LeagueView
         /**
          * Binds a League to the ViewHolder
          *
-         * @param league The String to bind
+         * @param league The League to bind
          */
         void bind(final League league) {
             //Todo 4: Possibly improve DB structure to make prettier look

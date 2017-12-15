@@ -30,6 +30,10 @@ public class OnlineUserAdapter extends RecyclerView.Adapter<OnlineUserAdapter.On
     private List<OnlineUser> onlineUsers;
     private Context context;
 
+    /**
+     * @param onlineUsers The online users that will populate this adapter
+     * @param context     The context under which this adapter exists
+     */
     public OnlineUserAdapter(List<OnlineUser> onlineUsers, Context context) {
         fbUser = FirebaseAuth.getInstance().getCurrentUser();
         this.onlineUsers = onlineUsers;
@@ -62,6 +66,11 @@ public class OnlineUserAdapter extends RecyclerView.Adapter<OnlineUserAdapter.On
 
         TextView emailText;
 
+        /**
+         * Creates the ViewHolder by getting references to the nested views
+         *
+         * @param itemView The parentView
+         */
         public OnlineUserViewHolder(View itemView) {
             super(itemView);
             this.itemView = itemView;
@@ -69,6 +78,11 @@ public class OnlineUserAdapter extends RecyclerView.Adapter<OnlineUserAdapter.On
             this.emailText = (TextView) itemView.findViewById(R.id.user_item_email_text);
         }
 
+        /**
+         * Binds an OnlineUser's information to the Views
+         *
+         * @param onlineUser The OnlineUser to bind
+         */
         public void bind(final OnlineUser onlineUser) {
             String email = onlineUser.getEmail();
             emailText.setText(email);

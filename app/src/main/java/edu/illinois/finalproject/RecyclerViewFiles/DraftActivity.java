@@ -58,6 +58,12 @@ public class DraftActivity extends AppCompatActivity implements SearchView.OnQue
         initializeRecyclerView();
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        checkSortType();
+    }
+
     /**
      * Sets up the callback for whenever the draft is updated, including the initial download.
      * Also handles starting the creation of the league if the draft is over, and finishing the
@@ -148,12 +154,6 @@ public class DraftActivity extends AppCompatActivity implements SearchView.OnQue
         });
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        checkSortType();
-    }
-
     /**
      * Initializes the RecyclerView by making the initial Draft download, creating the PlayerAdapter,
      * and populating the RecyclerView with it.
@@ -192,15 +192,6 @@ public class DraftActivity extends AppCompatActivity implements SearchView.OnQue
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         return SortType.fromString(sharedPreferences.getString(SettingsFragment.SORT_TYPE, ""));
     }
-
-    /*In real app the following four methods would be included in a generic class such as a
-    BaseActivity, which would extend AppCompatActivity and implement OnQueryChangedListener. Then,
-    all other activities would extend BaseActivity, rather than AppCompatActivity, so that all classes
-    are searchable and update the sort types appropriately.
-
-    This seems to be the way to most easily generify this process across any comparable data type
-    (i.e. in the real app, teams, players, etc).
-    */
 
     /**
      * Creates and initializes the Options Menu by inflating the menu and adding the
