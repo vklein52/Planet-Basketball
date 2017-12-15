@@ -32,26 +32,50 @@ public class Team implements Parcelable {
         wins = 0;
     }
 
+    /**
+     * @return The name of this team
+     */
     public String getName() {
         return name;
     }
 
+    /**
+     * Required for Firebase compatibility
+     *
+     * @param name This team's new name
+     */
     public void setName(String name) {
         this.name = name;
     }
 
+    /**
+     * @return The team's players
+     */
     public List<Player> getPlayers() {
         return players;
     }
 
+    /**
+     * Required for Firebase compatibility
+     *
+     * @param players This team's new players
+     */
     public void setPlayers(List<Player> players) {
         this.players = players;
     }
 
+    /**
+     * @return The team's win count
+     */
     public int getWins() {
         return wins;
     }
 
+    /**
+     * Required for Firebase compatibility
+     *
+     * @param wins This team's new win count
+     */
     public void setWins(int wins) {
         this.wins = wins;
     }

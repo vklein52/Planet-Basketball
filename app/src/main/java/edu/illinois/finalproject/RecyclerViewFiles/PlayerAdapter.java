@@ -86,6 +86,11 @@ public class PlayerAdapter extends RecyclerView.Adapter<PlayerAdapter.PlayerView
         return players.size();
     }
 
+    /**
+     * Populates this adapter with the Draft passed
+     *
+     * @param draft The Draft to populate this adapter with
+     */
     public void setDraft(Draft draft) {
         this.draft = draft;
         players = draft.getAvailablePlayers();
@@ -105,7 +110,8 @@ public class PlayerAdapter extends RecyclerView.Adapter<PlayerAdapter.PlayerView
 
     /**
      * Filters the adapter for a given search query
-     * @param text  The search query text
+     *
+     * @param text The search query text
      */
     void filter(String text) {
         //Below code found and then edited from
@@ -179,7 +185,6 @@ public class PlayerAdapter extends RecyclerView.Adapter<PlayerAdapter.PlayerView
             String ovrText = "Overall: " + player.overall();
             ovrView.setText(ovrText);
 
-            //Todo 6: Improve method of obtaining attributes
             String potText = "Potential: " + player.getAttributes().get("potential").intValue();
             potView.setText(potText);
 

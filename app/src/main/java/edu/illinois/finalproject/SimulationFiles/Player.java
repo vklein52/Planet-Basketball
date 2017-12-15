@@ -85,46 +85,91 @@ public class Player implements Comparable<Player>, Parcelable {
         return attributes;
     }
 
+    /**
+     * Required for Firebase compatibility
+     *
+     * @param attributes The new attributes
+     */
     public void setAttributes(HashMap<String, Double> attributes) {
         this.attributes = attributes;
     }
 
+    /**
+     * @return The Player's name
+     */
     public String getName() {
         return name;
     }
 
+    /**
+     * Required for Firebase compatibility
+     *
+     * @param name The new Name
+     */
     public void setName(String name) {
         this.name = name;
     }
 
+    /**
+     * @return The Player's age
+     */
     public int getAge() {
         return age;
     }
 
+    /**
+     * Required for Firebase compatibility
+     *
+     * @param age The new age
+     */
     public void setAge(int age) {
         this.age = age;
     }
 
+    /**
+     * @return The Player's position
+     */
     public Position getPosition() {
         return position;
     }
 
+    /**
+     * Required for Firebase compatibility
+     *
+     * @param position The new Position
+     */
     public void setPosition(Position position) {
         this.position = position;
     }
 
+    /**
+     * @return The player's height
+     */
     public double getHeight() {
         return height;
     }
 
+    /**
+     * Required for Firebase compatibility
+     *
+     * @param height The new height
+     */
     public void setHeight(double height) {
         this.height = height;
     }
 
+    /**
+     * @return The Player's key
+     */
     public String getKey() {
         return key;
     }
 
+    /**
+     * Required for Firebase compatibility
+     *
+     * @param key The new key
+     */
     public void setKey(String key) {
         this.key = key;
     }
@@ -548,7 +593,7 @@ public class Player implements Comparable<Player>, Parcelable {
 
     protected Player(Parcel in) {
         int attributesSize = in.readInt();
-        this.attributes = new HashMap<String, Double>(attributesSize);
+        this.attributes = new HashMap<>(attributesSize);
         for (int i = 0; i < attributesSize; i++) {
             String key = in.readString();
             Double value = (Double) in.readValue(Double.class.getClassLoader());

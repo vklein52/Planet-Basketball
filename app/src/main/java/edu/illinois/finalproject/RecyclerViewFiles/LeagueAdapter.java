@@ -77,7 +77,6 @@ public class LeagueAdapter extends RecyclerView.Adapter<LeagueAdapter.LeagueView
          * @param league The League to bind
          */
         void bind(final League league) {
-            //Todo 4: Possibly improve DB structure to make prettier look
             firstTeam.setText(league.firstTeam().getName());
             secondTeam.setText(league.secondTeam().getName());
 

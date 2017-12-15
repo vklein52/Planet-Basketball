@@ -202,7 +202,6 @@ public class OnlineUsersListActivity extends AppCompatActivity {
                                 oDraftRef.setValue(draftKey);
                             }
                         });
-                        //Todo: Start the league
                     }
                 };
                 DialogInterface.OnClickListener negative = new DialogInterface.OnClickListener() {

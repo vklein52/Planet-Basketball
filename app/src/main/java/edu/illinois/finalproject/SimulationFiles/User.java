@@ -40,18 +40,34 @@ public class User implements Parcelable {
         }
     }
 
+    /**
+     * @return The user's uid
+     */
     public String getUid() {
         return uid;
     }
 
+    /**
+     * Required for Firebase compatibility
+     *
+     * @param uid The new uid
+     */
     public void setUid(String uid) {
         this.uid = uid;
     }
 
+    /**
+     * @return The user's leagueIds
+     */
     public List<String> getLeagueIds() {
         return leagueIds;
     }
 
+    /**
+     * Required for Firebase compatibility
+     *
+     * @param leagueIds The new leagueIds
+     */
     public void setLeagueIds(List<String> leagueIds) {
         this.leagueIds = leagueIds;
     }
